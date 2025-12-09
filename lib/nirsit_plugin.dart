@@ -1,0 +1,116 @@
+import 'dart:async';
+import 'dart:ui';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:nirsit_plugin/data/nirsit_data.dart';
+import 'package:nirsit_plugin/utils/logger.dart';
+import 'package:nirsit_plugin/wifi/wifi_service.dart';
+import 'data/nirsit_status.dart';
+import 'flutter_background_service.dart';
+import 'nirsit/sdk/nirsit_sdk.dart';
+import 'nirsit_plugin_platform_interface.dart';
+export 'package:wifi_scan/wifi_scan.dart';
+
+export 'data/nirsit_status.dart';
+
+class NirsitPlugin {
+  final wifiService = WifiService();
+  final service = FlutterBackgroundService();
+
+  Stream<List<ConnectivityResult>> get connectivityResultStream => wifiService.connectivityResultStream;
+
+  final StreamController<NirsitData> _dataController = StreamController.broadcast();
+  Stream<NirsitData> get nirsitDataStream => _dataController.stream;
+
+  final StreamController<MeasureState> _measureStateController = StreamController.broadcast();
+  Stream<MeasureState> get measureStateStream => _measureStateController.stream;
+
+  final StreamController<NirsitConnectionState> _connectionStateController = StreamController.broadcast();
+  Stream<NirsitConnectionState> get connectStateStream => _connectionStateController.stream;
+
+  NirsitPlugin() {
+    service.on(methodConnectionState).listen((state) {
+      try {
+        final statName = state?['connect_state'];
+        logger.d("service on connectionState? - $statName");
+        _connectionStateController.add(NirsitConnectionState.values.byName(statName));
+      } catch (e, stackTrace) {
+        logger.e("service on connectionState?", error: e, stackTrace: stackTrace);
+      }
+    });
+    service.on(methodMeasureState).listen((state) {
+      try {
+        final statName = state?['measure_state'];
+        logger.d("service on measureState? - $statName");
+        _measureStateController.add(MeasureState.values.byName(statName));
+      } catch (e, stackTrace) {
+        logger.e("service on measureState?", error: e, stackTrace: stackTrace);
+      }
+    });
+    service.on(methodData).listen((data) {
+      logger.d("service on data? - $data");
+      try {
+        final nirsitData = NirsitData.fromJson(data?['data']);
+        logger.d("nirsitData? - $nirsitData");
+        _dataController.add(nirsitData);
+      } catch (e, stackTrace) {
+        logger.e("service on data?", error: e, stackTrace: stackTrace);
+      }
+    });
+  }
+
+  Future<String?> getPlatformVersion() {
+    return NirsitPluginPlatform.instance.getPlatformVersion();
+  }
+
+  Future<List<WiFiAccessPoint>> scan() => wifiService.scan();
+
+  Future<String?> getConnectedWifiSsid() => wifiService.getConnectedWifiSsid();
+
+  Future<bool> isConnected() => wifiService.isConnected();
+
+  Future<bool> disconnect() => wifiService.disconnect();
+
+  Future<bool> isWifiEnabled() => wifiService.isWifiEnabled();
+
+
+  void connectNirsit(String ip, int port) => service.invoke(methodConnect, {"ip": ip, "port": port});
+
+  void startGainCal(int snrLimit) => service.invoke(methodGainCal, {"snr_limit": snrLimit});
+
+  void startChannelRejection() => service.invoke(methodChannelRejection);
+
+  void setSnrLimit(int snrLimit) => service.invoke(methodSetSnrLimit, {"snr_limit": snrLimit});
+
+  void setDSPOptions(int options) => service.invoke(methodSetOptions, {"dsp_options": options});
+
+  void startMeasure() => service.invoke(methodMeasure);
+
+
+  void stopMeasure() => service.invoke(methodStop);
+
+  void stopGainCal() => service.invoke(methodStopGainCal);
+
+  void requestTestCommand() => service.invoke(methodTest);
+
+  void requestBatteryInto() => service.invoke(methodBattery);
+
+  void requestVersion() => service.invoke(methodVersion);
+
+  void disconnectNirsit() => service.invoke(methodDisconnect);
+
+  Future<double> testNirsitSdk() async {
+    logger.d('plug-in :  Calling native function: nirsit_sdk_test');
+    try {
+      final nirsitSdk = NirsitSdk();
+      final result = nirsitSdk.test();
+
+      logger.d('plug-in :  Native function from bindings returned: $result');
+      return result;
+    } catch (e) {
+      logger.d('plug-in :  Error calling native function: $e');
+      return Future.error('Error calling native function');
+    }
+  }
+}

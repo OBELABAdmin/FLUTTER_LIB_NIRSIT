@@ -1,0 +1,14 @@
+targets:
+  $default:
+    builders:
+      source_gen|combining_builder:
+        options:
+          ignore_for_file:
+            - "**"
+      json_serializable:
+        generate_for:
+          exclude:
+            - "example/**"
+            - "build/**"
+            - "**/.plugin_symlinks/**"
+            - "**/ephemeral/**"
