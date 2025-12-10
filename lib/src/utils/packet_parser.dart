@@ -2,8 +2,8 @@
 
 import 'dart:typed_data';
 
-import 'package:nirsit_plugin/data/nirsit_command.dart';
-import 'package:nirsit_plugin/data/version_info.dart';
+import 'package:nirsit_plugin/src/data/nirsit_command.dart';
+import 'package:nirsit_plugin/src/data/version_info.dart';
 
 import '../data/battery_info.dart';
 import '../data/calibration_data.dart';

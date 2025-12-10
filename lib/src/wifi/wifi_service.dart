@@ -1,6 +1,6 @@
 
 import 'package:wifi_iot/wifi_iot.dart';
-import 'package:nirsit_plugin/utils/logger.dart';
+import 'package:nirsit_plugin/src/utils/logger.dart';
 import 'package:wifi_scan/wifi_scan.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:wifi_scan/wifi_scan.dart' show WiFiAccessPoint;

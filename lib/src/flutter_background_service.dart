@@ -4,11 +4,11 @@ import 'dart:ui';
 
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:nirsit_plugin/utils/logger.dart';
+import 'package:nirsit_plugin/src/utils/logger.dart';
 
 import 'data/nirsit_command.dart';
-import 'nirsit/sdk/nirsit_sdk.dart';
 import 'nirsit/nirsit_service.dart';
+import 'nirsit/sdk/nirsit_sdk.dart';
 
 
 const String methodConnect = 'connect';

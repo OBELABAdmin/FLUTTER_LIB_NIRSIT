@@ -1,6 +1,6 @@
-import 'package:nirsit_plugin/data/calibration_data.dart';
-import 'package:nirsit_plugin/data/snr_data.dart';
-import 'package:nirsit_plugin/data/version_info.dart';
+import 'package:nirsit_plugin/src/data/calibration_data.dart';
+import 'package:nirsit_plugin/src/data/snr_data.dart';
+import 'package:nirsit_plugin/src/data/version_info.dart';
 
 import 'battery_info.dart';
 import 'data_enum.dart';

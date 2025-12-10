@@ -4,8 +4,8 @@ import 'dart:async';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nirsit_plugin/flutter_background_service.dart';
-import 'package:nirsit_plugin/utils/logger.dart';
+import 'package:nirsit_plugin/nirsit_plugin.dart';
+import 'package:nirsit_plugin_example/utils/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'main_viewmodel.dart';
@@ -14,7 +14,8 @@ final providerContainer = ProviderContainer();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeService();
+  await startForegroundService();
+
   runApp(
       UncontrolledProviderScope(
         container: providerContainer,

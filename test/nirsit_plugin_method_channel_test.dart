@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nirsit_plugin/nirsit_plugin_method_channel.dart';
+import 'package:nirsit_plugin/src/nirsit_plugin_method_channel.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

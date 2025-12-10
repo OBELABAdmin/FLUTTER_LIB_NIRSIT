@@ -1,6 +1,6 @@
 
 import 'dart:typed_data';
-import 'package:nirsit_plugin/utils/logger.dart';
+import 'package:nirsit_plugin/src/utils/logger.dart';
 
 import '../data/nirsit_command.dart';
 

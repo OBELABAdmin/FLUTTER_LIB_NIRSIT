@@ -5,6 +5,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 
+import 'package:flutter/foundation.dart';
+
 import '../data/data_enum.dart';
 import '../data/measure_data.dart';
 import '../data/nirsit_data.dart';
@@ -17,6 +19,7 @@ import '../utils/nirsit_command_utils.dart';
 import '../utils/packet_parser.dart';
 import 'sdk/nirsit_sdk.dart';
 
+@internal
 class NirsitService {
 
   static final NirsitService _instance = NirsitService._internals();

@@ -1,18 +1,28 @@
+library nirsit_plugin;
+
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:nirsit_plugin/data/nirsit_data.dart';
-import 'package:nirsit_plugin/utils/logger.dart';
-import 'package:nirsit_plugin/wifi/wifi_service.dart';
-import 'data/nirsit_status.dart';
-import 'flutter_background_service.dart';
-import 'nirsit/sdk/nirsit_sdk.dart';
-import 'nirsit_plugin_platform_interface.dart';
-export 'package:wifi_scan/wifi_scan.dart';
+import 'package:nirsit_plugin/src/data/nirsit_data.dart';
+import 'package:nirsit_plugin/src/flutter_background_service.dart';
+import 'package:nirsit_plugin/src/nirsit_plugin_platform_interface.dart';
+import 'package:nirsit_plugin/src/utils/logger.dart';
+import 'package:nirsit_plugin/src/wifi/wifi_service.dart';
+import 'src/data/nirsit_status.dart';
+import 'src/nirsit/sdk/nirsit_sdk.dart';
 
-export 'data/nirsit_status.dart';
+export 'package:wifi_scan/wifi_scan.dart';
+export 'src/data/battery_info.dart';
+export 'src/data/version_info.dart';
+export 'src/data/measure_data.dart';
+export 'src/data/calibration_data.dart';
+export 'src/data/snr_data.dart';
+export 'src/data/nirsit_data.dart';
+export 'src/data/nirsit_status.dart';
+export 'src/data/data_enum.dart';
+
+Future<void> startForegroundService() => initializeService();
 
 class NirsitPlugin {
   final wifiService = WifiService();

@@ -2,16 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nirsit_plugin/data/battery_info.dart';
-import 'package:nirsit_plugin/data/calibration_data.dart';
-import 'package:nirsit_plugin/data/data_enum.dart';
-import 'package:nirsit_plugin/data/measure_data.dart';
-import 'package:nirsit_plugin/data/nirsit_data.dart';
-import 'package:nirsit_plugin/data/snr_data.dart';
-import 'package:nirsit_plugin/data/version_info.dart';
 import 'package:nirsit_plugin/nirsit_plugin.dart';
-import 'package:nirsit_plugin/utils/logger.dart';
 import 'package:nirsit_plugin_example/provider/nirsit_provider.dart';
+import 'package:nirsit_plugin_example/utils/logger.dart';
 
 final mainViewModel = ChangeNotifierProvider<MainViewModel>((ref) {
   return MainViewModel(ref);

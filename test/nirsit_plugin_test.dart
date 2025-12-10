@@ -1,13 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nirsit_plugin/data/nirsit_command.dart';
-import 'package:nirsit_plugin/data/nirsit_data.dart';
-import 'package:nirsit_plugin/data/raw_data.dart';
+import 'package:nirsit_plugin/src/data/nirsit_command.dart';
+import 'package:nirsit_plugin/src/data/nirsit_data.dart';
+import 'package:nirsit_plugin/src/data/raw_data.dart';
 import 'package:nirsit_plugin/nirsit_plugin.dart';
-import 'package:nirsit_plugin/nirsit_plugin_method_channel.dart';
-import 'package:nirsit_plugin/nirsit_plugin_platform_interface.dart';
-import 'package:nirsit_plugin/utils/packet_parser.dart';
+import 'package:nirsit_plugin/src/nirsit_plugin_method_channel.dart';
+import 'package:nirsit_plugin/src/nirsit_plugin_platform_interface.dart';
+import 'package:nirsit_plugin/src/utils/packet_parser.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockNirsitPluginPlatform
