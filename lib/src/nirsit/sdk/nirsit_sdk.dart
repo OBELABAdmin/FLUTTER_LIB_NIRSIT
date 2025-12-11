@@ -67,18 +67,24 @@ class NirsitSdk {
   void calibration(List<double> rawData780, List<double> rawData850) {
     final ptrRawData780 = _doubleListToPointer(rawData780);
     final ptrRawData850 = _doubleListToPointer(rawData850);
-    nirsitBindings.calibration(ptrRawData780, ptrRawData850);
-    nirsitBindings.addSNRRecentData();
-    calloc.free(ptrRawData780);
-    calloc.free(ptrRawData850);
+    try {
+      nirsitBindings.calibration(ptrRawData780, ptrRawData850);
+      nirsitBindings.addSNRRecentData();
+    } finally {
+      calloc.free(ptrRawData780);
+      calloc.free(ptrRawData850);
+    }
   }
 
   void calibrationRawData(List<double> rawData) {
     final ptrRawData = _doubleListToPointer(rawData);
-    nirsitBindings.calibrationRawData(ptrRawData);
-    calloc.free(ptrRawData);
+    try {
+      nirsitBindings.calibrationRawData(ptrRawData);
+    } finally {
+      calloc.free(ptrRawData);
+    }
   }
-  
+
   void snrCalculation(int snrLimit) {
     nirsitBindings.snrCalculation(snrLimit);
   }
@@ -86,7 +92,7 @@ class NirsitSdk {
   void setSnrLimit(int snrLimit) {
     nirsitBindings.setSnrLimit(snrLimit);
   }
-  
+
   void setPdGainIndex(List<int> indexList) {
     final ptrIndexList = calloc<Int8>(indexList.length);
     try {
@@ -101,25 +107,31 @@ class NirsitSdk {
     nirsitBindings.setDSPOption(option);
   }
 
-  Future<(List<double>, List<double>)> measure(List<double> rawData780, List<double> rawData850) async {
+  (List<double>, List<double>) measure(List<double> rawData780, List<double> rawData850) {
     final ptrRawData780 = _doubleListToPointer(rawData780);
     final ptrRawData850 = _doubleListToPointer(rawData850);
-    nirsitBindings.measure(ptrRawData780, ptrRawData850);
-    final List<double> hbo2List = getHbO2();
-    final List<double >hbrList = getHbR();
-    calloc.free(ptrRawData780);
-    calloc.free(ptrRawData850);
-    return (hbo2List, hbrList);
+    try {
+      nirsitBindings.measure(ptrRawData780, ptrRawData850);
+      final List<double> hbo2List = getHbO2();
+      final List<double> hbrList = getHbR();
+      return (hbo2List, hbrList);
+    } finally {
+      calloc.free(ptrRawData780);
+      calloc.free(ptrRawData850);
+    }
   }
 
   void measureRawData(List<double> rawData) {
     final ptrRawData = _doubleListToPointer(rawData);
-    nirsitBindings.measureRawData(ptrRawData);
-    calloc.free(ptrRawData);
+    try {
+      nirsitBindings.measureRawData(ptrRawData);
+    } finally {
+      calloc.free(ptrRawData);
+    }
   }
 
   (List<int>, List<int>) getSnr(int snrLimit) {
-    snrCalculation(30);
+    snrCalculation(snrLimit);
     var snr = nirsitBindings.getGainSNR();
     final List<int> data780 = snr.data_780.asTypedList(snr.length_780).toList();
     final List<int> data850 = snr.data_850.asTypedList(snr.length_850).toList();
