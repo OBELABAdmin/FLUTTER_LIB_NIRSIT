@@ -13,6 +13,10 @@ import '../data/raw_data.dart';
 import 'nirsit_command_utils.dart';
 
 const headerSize = 6;
+const startPacketSize = 3;
+const lengthIndex = 4;
+
+const commandIndex = 3;
 
 const ldOffset = 57;
 const ldDataSize = 2;

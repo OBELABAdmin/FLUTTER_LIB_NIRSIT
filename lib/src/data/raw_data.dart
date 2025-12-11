@@ -19,20 +19,22 @@ class RawData {
 
   @override
   String toString() {
-    return 'NirsitData{dataType: $dataType, length: $length, checksum: $checksum}';
+    return 'RawData{dataType: $dataType, length: $length, checksum: $checksum}';
   }
 
   factory RawData.fromBytes(Uint8List data) {
-    final startPacket = Uint8List.sublistView(data, 0, 3);
-    final lengthList = Uint8List.sublistView(data, 4, headerSize);
+    final startPacket = Uint8List.sublistView(data, 0, startPacketSize);
+    final dataType = data[commandIndex];
+    final lengthList = Uint8List.sublistView(data, lengthIndex, headerSize);
     final length = packetParser.getLength(lengthList);
     final payload = packetParser.getPayload(length, data);
+    final checksum = data[headerSize + length];
     return RawData(
       startPacket: startPacket,
-      dataType: data[3],
+      dataType: dataType,
       length: lengthList,
       payload: payload,
-      checksum: data[headerSize + length],
+      checksum: checksum,
     );
   }
 }
