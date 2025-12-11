@@ -1,4 +1,5 @@
 import 'package:nirsit_plugin/src/data/calibration_data.dart';
+import 'package:nirsit_plugin/src/data/constants.dart';
 import 'package:nirsit_plugin/src/data/snr_data.dart';
 import 'package:nirsit_plugin/src/data/version_info.dart';
 
@@ -17,43 +18,35 @@ class NirsitData {
   });
 
   factory NirsitData.fromJson(Map<String, dynamic> json) {
-    final typeString = json['type'] as String;
+    final typeString = json[keyType] as String;
     final typeEnum = Data.values.byName(typeString);
 
-    // 2) data 필드 가져오기
-    final rawData = json['data'];
+    final rawData = json[keyData];
     dynamic parsedData;
 
-    // 3) type에 따라 알맞은 클래스로 변환
     if (rawData != null) {
       switch (typeEnum) {
         case Data.batteryInfo:
-        // BatteryInfo로 변환
           parsedData = BatteryInfo.fromJson(rawData as Map<String, dynamic>);
           break;
         case Data.gainCal:
-        // HbO2Data로 변환
           parsedData = CalibrationData.fromJson(rawData as Map<String, dynamic>);
           break;
         case Data.snr:
-        // HbO2Data로 변환
           parsedData = SnrData.fromJson(rawData as Map<String, dynamic>);
           break;
         case Data.mainVersion:
         case Data.wifiVersion:
-        // HbO2Data로 변환
           parsedData = VersionInfo.fromJson(rawData as Map<String, dynamic>);
           break;
         case Data.measure:
           parsedData = MeasureData.fromJson(rawData as Map<String, dynamic>);
           break;
         default:
-        // 정의되지 않은 타입은 그대로 둠 (Map or primitive)
           parsedData = rawData;
       }
     }
 
-    // 4) 생성자를 호출하여 반환
     return NirsitData(
       type: typeEnum,
       data: parsedData,
@@ -62,7 +55,6 @@ class NirsitData {
 
   Map<String, dynamic> toJson() {
     dynamic encodedData;
-    // data가 null이 아닐 때만 변환 시도
     if (data != null) {
       switch (type) {
         case Data.batteryInfo:
@@ -87,8 +79,8 @@ class NirsitData {
     }
 
     return {
-      'type': type.name, // Enum을 String으로 변환 (예: "batteryInfo")
-      'data': encodedData,
+      keyType: type.name, // Convert Enum to String (e.g., "batteryInfo")
+      keyData: encodedData,
     };
   }
 }
