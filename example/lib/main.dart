@@ -66,6 +66,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addObserver(this);
     _viewModel = ref.read(mainViewModel);
     _viewModel.getConnectedWifiSsid().then((ssid) => setState(() => connectedWifi = ssid ?? ""));
