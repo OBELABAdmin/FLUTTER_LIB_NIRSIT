@@ -70,6 +70,12 @@ class NirsitPlugin {
     });
   }
 
+  void dispose() {
+    _dataController.close();
+    _measureStateController.close();
+    _connectionStateController.close();
+  }
+
   Future<String?> getPlatformVersion() {
     return NirsitPluginPlatform.instance.getPlatformVersion();
   }
