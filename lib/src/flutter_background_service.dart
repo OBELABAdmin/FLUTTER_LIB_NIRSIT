@@ -29,6 +29,14 @@ const String methodData = 'data';
 
 const String methodTest = 'test';
 
+const String keyIp = 'ip';
+const String keyPort = 'port';
+const String keySnrLimit = 'snr_limit';
+const String keyDspOptions = 'dsp_options';
+const String keyConnectState = 'connect_state';
+const String keyMeasureState = 'measure_state';
+const String keyData = 'data';
+
 Future<void> initializeService() async {
   final service = FlutterBackgroundService();
 
@@ -89,15 +97,15 @@ void _registerNirsitMethodHandler(ServiceInstance service, NirsitService nirsit)
   service.on(methodTest).listen((event) => nirsit.sendTestCommand());
 
   service.on(methodConnect).listen((event) async {
-    String ip = event?['ip'] ?? '192.168.0.1';
-    int port = event?['port'] ?? 50007;
+    String ip = event?[keyIp] ?? '192.168.0.1';
+    int port = event?[keyPort] ?? 50007;
     logger.d("connect $ip : $port");
     final state = await nirsit.connect(ip, port);
     logger.d('plug-in :  connect state = $state');
   });
 
   service.on(methodGainCal).listen((event) async {
-    await nirsit.startGainCal(snrLimit: event?['snr_limit'] ?? 30);
+    await nirsit.startGainCal(snrLimit: event?[keySnrLimit] ?? 30);
   });
 
   service.on(methodChannelRejection).listen((event) => nirsit.startChannelRejection());
@@ -109,16 +117,16 @@ void _registerNirsitMethodHandler(ServiceInstance service, NirsitService nirsit)
   service.on(methodStop).listen((event) => nirsit.stopMeasure());
 
   service.on(methodSetSnrLimit).listen((event) {
-    nirsit.setSnrLimit(event?['snr_limit'] ?? 30);
+    nirsit.setSnrLimit(event?[keySnrLimit] ?? 30);
   });
 
   service.on(methodSetOptions).listen((event) {
-    nirsit.setSnrLimit(event?['dsp_options'] ?? dspOptionsAll);
+    nirsit.setSnrLimit(event?[keyDspOptions] ?? dspOptionsAll);
   });
 
   service.on(methodVersion).listen((event) async {
     await nirsit.getVersion(ReceivedDataType.mainVersion);
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     await nirsit.getVersion(ReceivedDataType.wifiVersion);
   });
 
@@ -129,10 +137,10 @@ void _registerNirsitMethodHandler(ServiceInstance service, NirsitService nirsit)
 
 void _handleNirsitStreamToService(ServiceInstance service, NirsitService nirsit) {
   nirsit.connectionStateStream.listen((state) {
-    service.invoke(methodConnectionState, {"connect_state": state.name});
+    service.invoke(methodConnectionState, {keyConnectState: state.name});
   });
   nirsit.measureStateStream.listen((state) {
-    service.invoke(methodMeasureState, {"measure_state": state.name});
+    service.invoke(methodMeasureState, {keyMeasureState: state.name});
   });
-  nirsit.dataStream.listen((data) => service.invoke(methodData, {"data": data.toJson()}));
+  nirsit.dataStream.listen((data) => service.invoke(methodData, {keyData: data.toJson()}));
 }

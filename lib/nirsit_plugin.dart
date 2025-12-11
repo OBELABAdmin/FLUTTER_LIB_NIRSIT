@@ -42,7 +42,7 @@ class NirsitPlugin {
   NirsitPlugin() {
     service.on(methodConnectionState).listen((state) {
       try {
-        final statName = state?['connect_state'];
+        final statName = state?[keyConnectState];
         logger.d("service on connectionState? - $statName");
         _connectionStateController.add(NirsitConnectionState.values.byName(statName));
       } catch (e, stackTrace) {
@@ -51,7 +51,7 @@ class NirsitPlugin {
     });
     service.on(methodMeasureState).listen((state) {
       try {
-        final statName = state?['measure_state'];
+        final statName = state?[keyMeasureState];
         logger.d("service on measureState? - $statName");
         _measureStateController.add(MeasureState.values.byName(statName));
       } catch (e, stackTrace) {
@@ -61,7 +61,7 @@ class NirsitPlugin {
     service.on(methodData).listen((data) {
       logger.d("service on data? - $data");
       try {
-        final nirsitData = NirsitData.fromJson(data?['data']);
+        final nirsitData = NirsitData.fromJson(data?[keyData]);
         logger.d("nirsitData? - $nirsitData");
         _dataController.add(nirsitData);
       } catch (e, stackTrace) {
@@ -85,15 +85,15 @@ class NirsitPlugin {
   Future<bool> isWifiEnabled() => wifiService.isWifiEnabled();
 
 
-  void connectNirsit(String ip, int port) => service.invoke(methodConnect, {"ip": ip, "port": port});
+  void connectNirsit(String ip, int port) => service.invoke(methodConnect, {keyIp: ip, keyPort: port});
 
-  void startGainCal(int snrLimit) => service.invoke(methodGainCal, {"snr_limit": snrLimit});
+  void startGainCal(int snrLimit) => service.invoke(methodGainCal, {keySnrLimit: snrLimit});
 
   void startChannelRejection() => service.invoke(methodChannelRejection);
 
-  void setSnrLimit(int snrLimit) => service.invoke(methodSetSnrLimit, {"snr_limit": snrLimit});
+  void setSnrLimit(int snrLimit) => service.invoke(methodSetSnrLimit, {keySnrLimit: snrLimit});
 
-  void setDSPOptions(int options) => service.invoke(methodSetOptions, {"dsp_options": options});
+  void setDSPOptions(int options) => service.invoke(methodSetOptions, {keyDspOptions: options});
 
   void startMeasure() => service.invoke(methodMeasure);
 
