@@ -7,9 +7,7 @@ class AppLogPrinter extends LogPrinter {
     final emoji = PrettyPrinter.defaultLevelEmojis[event.level];
     final message = event.message;
 
-    if (event.level == Level.error) {
-      return [color!('$emoji $message')];
-    } else if (event.level == Level.warning) {
+    if (event.level == Level.error || event.level == Level.warning) {
       return [color!('$emoji $message')];
     }
     return [color!(message)];
