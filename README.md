@@ -17,4 +17,9 @@ samples, guidance on mobile development, and a full API reference.
 # Nirsit sdk ffi-bindings generate
   dart run ffigen
 
+# 빌드 캐시 정리
+flutter pub run build_runner clean
+
+# 충돌하는 파일들을 삭제하고 재빌드
+flutter pub run build_runner build --delete-conflicting-outputs
 ```
