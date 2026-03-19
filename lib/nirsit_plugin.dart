@@ -29,6 +29,9 @@ class NirsitPlugin {
   final wifiService = WifiService();
   final service = FlutterBackgroundService();
 
+  NirsitConnectionState _nirsitConnectionState = NirsitConnectionState.disconnected;
+  NirsitConnectionState get nirsitConnectionState => _nirsitConnectionState;
+
   Stream<List<ConnectivityResult>> get connectivityResultStream => wifiService.connectivityResultStream;
 
   final StreamController<NirsitData> _dataController = StreamController.broadcast();
@@ -45,6 +48,7 @@ class NirsitPlugin {
       try {
         final statName = state?[keyConnectState];
         logger.d("service on connectionState? - $statName");
+        _nirsitConnectionState = NirsitConnectionState.values.byName(statName);
         _connectionStateController.add(NirsitConnectionState.values.byName(statName));
       } catch (e, stackTrace) {
         logger.e("service on connectionState?", error: e, stackTrace: stackTrace);
