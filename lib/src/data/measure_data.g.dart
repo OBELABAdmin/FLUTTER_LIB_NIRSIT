@@ -10,6 +10,9 @@ part of 'measure_data.dart';
 
 _MeasureData _$MeasureDataFromJson(Map<String, dynamic> json) => _MeasureData(
   sequence: (json['sequence'] as num).toInt(),
+  rawData: (json['rawData'] as List<dynamic>)
+      .map((e) => (e as num).toInt())
+      .toList(),
   data780: (json['data780'] as List<dynamic>)
       .map((e) => (e as num).toInt())
       .toList(),
@@ -29,6 +32,7 @@ _MeasureData _$MeasureDataFromJson(Map<String, dynamic> json) => _MeasureData(
 Map<String, dynamic> _$MeasureDataToJson(_MeasureData instance) =>
     <String, dynamic>{
       'sequence': instance.sequence,
+      'rawData': instance.rawData,
       'data780': instance.data780,
       'data850': instance.data850,
       'batteryStatus': instance.batteryStatus,

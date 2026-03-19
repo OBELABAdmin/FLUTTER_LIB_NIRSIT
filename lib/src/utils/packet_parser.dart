@@ -100,11 +100,14 @@ class PacketParser {
   MeasureData parseMeasureData(Uint8List data) {
     final seq = parseMeasureSeq(data);
     final measureData = Uint8List.sublistView(data, measureSequenceSize, measureSequenceSize + measureDataSize);
+    final List<int> rawData = [];
     final List<int> data780List = [];
     final List<int> data850List = [];
     for (var i = 0; i < channelCount; i++) {
       final channelData = Uint8List.sublistView(measureData, i * channelDataSize, (i + 1) * channelDataSize);
       var (data780, data850) = parseChannel(channelData);
+      rawData.add(data780);
+      rawData.add(data850);
       data780List.add(data780);
       data850List.add(data850);
     }
@@ -122,6 +125,7 @@ class PacketParser {
     printBytesToHexString('gyroData', accData);
     return MeasureData(
       sequence: seq,
+      rawData: rawData,
       data780: data780List,
       data850: data850List,
       batteryStatus: batteryData[0],
