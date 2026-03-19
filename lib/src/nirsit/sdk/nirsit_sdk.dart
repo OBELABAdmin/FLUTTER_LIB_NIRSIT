@@ -130,6 +130,15 @@ class NirsitSdk {
     }
   }
 
+  void processGyro(List<double> gyroData) {
+    final ptrRawData = _doubleListToPointer(gyroData);
+    try {
+      nirsitBindings.gyroProcessing(ptrRawData);
+    } finally {
+      calloc.free(ptrRawData);
+    }
+  }
+
   (List<int>, List<int>) getSnr(int snrLimit) {
     snrCalculation(snrLimit);
     var snr = nirsitBindings.getGainSNR();
@@ -155,6 +164,12 @@ class NirsitSdk {
     var rso2 = nirsitBindings.getRSO2();
     var rso2List = rso2.data.asTypedList(rso2.length).toList();
     return rso2List;
+  }
+
+  List<double> getGyroValues() {
+    var gyroValues = nirsitBindings.getGyroValues();
+    final gyroList = gyroValues.data.asTypedList(gyroValues.length).toList();
+    return gyroList;
   }
 
   void initChannelRejectFlag() => nirsitBindings.initChannelRejectFlag();

@@ -74,16 +74,6 @@ class NirsitSdkBindings {
       );
   late final _setDSPOption = _setDSPOptionPtr.asFunction<void Function(int)>();
 
-  void setSnrLimit(int snrLimit) {
-    return _setSnrLimit(snrLimit);
-  }
-
-  late final _setSnrLimitPtr =
-  _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>(
-    'setSnrLimit',
-  );
-  late final _setSnrLimit = _setSnrLimitPtr.asFunction<void Function(int)>();
-
   void setPDGainIndex(ffi.Pointer<ffi.Char> idxdata) {
     return _setPDGainIndex(idxdata);
   }
@@ -94,6 +84,14 @@ class NirsitSdkBindings {
       );
   late final _setPDGainIndex = _setPDGainIndexPtr
       .asFunction<void Function(ffi.Pointer<ffi.Char>)>();
+
+  void setSnrLimit(int snrLimit) {
+    return _setSnrLimit(snrLimit);
+  }
+
+  late final _setSnrLimitPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>('setSnrLimit');
+  late final _setSnrLimit = _setSnrLimitPtr.asFunction<void Function(int)>();
 
   void measureRawData(ffi.Pointer<ffi.Double> rawdata) {
     return _measureRawData(rawdata);
@@ -171,6 +169,17 @@ class NirsitSdkBindings {
   late final _snrCalculation = _snrCalculationPtr
       .asFunction<void Function(int)>();
 
+  void gyroProcessing(ffi.Pointer<ffi.Double> gyroData) {
+    return _gyroProcessing(gyroData);
+  }
+
+  late final _gyroProcessingPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Double>)>>(
+        'gyroProcessing',
+      );
+  late final _gyroProcessing = _gyroProcessingPtr
+      .asFunction<void Function(ffi.Pointer<ffi.Double>)>();
+
   GainSNRResult getGainSNR() {
     return _getGainSNR();
   }
@@ -203,6 +212,17 @@ class NirsitSdkBindings {
   late final _getRSO2Ptr =
       _lookup<ffi.NativeFunction<IntArrayResult Function()>>('getRSO2');
   late final _getRSO2 = _getRSO2Ptr.asFunction<IntArrayResult Function()>();
+
+  DoubleArrayResult getGyroValues() {
+    return _getGyroValues();
+  }
+
+  late final _getGyroValuesPtr =
+      _lookup<ffi.NativeFunction<DoubleArrayResult Function()>>(
+        'getGyroValues',
+      );
+  late final _getGyroValues = _getGyroValuesPtr
+      .asFunction<DoubleArrayResult Function()>();
 
   void freeGainSNRData(GainSNRResult result) {
     return _freeGainSNRData(result);
