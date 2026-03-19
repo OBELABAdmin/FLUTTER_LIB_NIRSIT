@@ -13,6 +13,7 @@ import 'src/data/nirsit_status.dart';
 import 'src/nirsit/sdk/nirsit_sdk.dart';
 
 export 'package:wifi_scan/wifi_scan.dart';
+export 'package:connectivity_plus/connectivity_plus.dart' show ConnectivityResult;
 export 'src/data/battery_info.dart';
 export 'src/data/version_info.dart';
 export 'src/data/measure_data.dart';
