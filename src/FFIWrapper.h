@@ -1,8 +1,6 @@
 #ifndef __FFIWrapper__
 #define __FFIWrapper__
 
-#include <vector>
-
 // C++ 코드 내에서 C 스타일의 함수 링크를 보장하기 위한 extern "C" 블록
 #ifdef __cplusplus
 extern "C" {
@@ -11,28 +9,28 @@ extern "C" {
 /**
  * @brief getGainSNR의 반환값을 담는 구조체 (int 배열 2개)
  */
-struct GainSNRResult {
+typedef struct {
     int* data_780;
     int  length_780;
     int* data_850;
     int  length_850;
-};
+} GainSNRResult;
 
 /**
  * @brief double 배열 1개를 반환하기 위한 구조체
  */
-struct DoubleArrayResult {
+typedef struct {
     double* data;
     int     length;
-};
+} DoubleArrayResult;
 
 /**
  * @brief int 배열 1개를 반환하기 위한 구조체
  */
-struct IntArrayResult {
+typedef struct {
     int* data;
     int  length;
-};
+} IntArrayResult;
 
 
 // --- 2. Export 함수 선언 ---
@@ -56,12 +54,14 @@ void calibrationRawData(double* rawdata);
 void calibration(double* rawdata_780, double* rawdata_850);
 void addSNRRecentData();
 void snrCalculation(int snrLimit);
+void gyroProcessing(double* gyroData);
 
 // 데이터 반환 함수 (Struct 반환)
 GainSNRResult     getGainSNR();
 DoubleArrayResult getHbO2();
 DoubleArrayResult getHbR();
 IntArrayResult    getRSO2();
+DoubleArrayResult getGyroValues();
 
 // 메모리 해제 함수 (필수)
 void freeGainSNRData(GainSNRResult result);
