@@ -53,7 +53,8 @@ class NirsitService {
 
   BytesBuilder bytesBuilder = BytesBuilder(copy: false);
 
-  int channelRejectionCount = 0;
+  int totalChannelRejectCount = 0;
+  int snrCount = 0;
 
   Function(Uint8List) get onReceived => (data) {
     if (_testCommand) {
@@ -182,7 +183,7 @@ class NirsitService {
           } else {
             logger.d('plug-in :  channelRejectionCount = $channelRejectionCount');
             handleChannelRejection(measureData);
-            channelRejectionCount++;
+            totalChannelRejectCount++;
           }
         }
         if (_measureState == MeasureState.measure) {
@@ -298,9 +299,10 @@ class NirsitService {
     await send(command);
   }
 
-  Future<void>  channelRejectionCompleted() async {
+  Future<void> channelRejectionCompleted() async {
     _updateMeasureState(MeasureState.stop);
-    channelRejectionCount = 0;
+    totalChannelRejectCount = 0;
+    snrCount = 0;
     await stopMeasure();
     await Future.delayed(Duration(seconds: 1));
     _nirsitSdk.clear();
