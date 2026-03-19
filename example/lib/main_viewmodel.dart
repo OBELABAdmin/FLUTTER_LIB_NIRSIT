@@ -87,20 +87,15 @@ class MainViewModel extends ChangeNotifier {
           break;
         case Data.measure:
           var measureData = data.data as MeasureData;
-          _measureStateText = '${MeasureState.measure.name} : ${measureData.sequence}';
-          logger.d('$measureData');
+          handleMeasure(measureData);
           break;
         case Data.gainCal:
           var calData = data.data as CalibrationData;
-          logger.d('calibration progress : ${calData.progress}');
-          _measureStateText = '${MeasureState.gainCal.name} : ${calData.progress} %';
-          if (calData.progress == 100) {
-            startChannelRejection();
-          }
+          handleGainCal(calData);
           break;
         case Data.snr:
           var snrData = data.data as SnrData;
-          logger.d('$snrData');
+          handleSnr(snrData);
           break;
         case Data.batteryInfo:
           _batteryInfo = data.data as BatteryInfo;
@@ -112,6 +107,29 @@ class MainViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  void handleGainCal(CalibrationData calData) {
+    logger.d('calibration progress : ${calData.progress}');
+    _measureStateText = '${MeasureState.gainCal.name} : ${calData.progress} %';
+    if (calData.progress == 100) {
+      startChannelRejection();
+    }
+  }
+
+  void handleSnr(SnrData snrData) {
+    logger.d('snr780 : ${snrData.snr780}');
+    logger.d('snr850 : ${snrData.snr850}');
+  }
+
+  void handleMeasure(MeasureData measureData) {
+    _measureStateText = '${MeasureState.measure.name} : ${measureData.sequence}';
+    logger.d('rawData seq : ${measureData.sequence}, data : ${measureData.rawData}');
+    logger.d('data780 : ${measureData.data780}');
+    logger.d('data850 : ${measureData.data850}');
+    logger.d('acc : ${measureData.accX}, ${measureData.accY}, ${measureData.accZ}, gyro : ${measureData.gyroX}, ${measureData.gyroY}, ${measureData.gyroZ}');
+    logger.d('battery : ${measureData.battery}');
+  }
+
 
   Future<void> requestTest() async {
     logger.d("_requestTest");
