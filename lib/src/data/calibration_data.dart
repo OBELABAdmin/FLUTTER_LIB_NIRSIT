@@ -9,7 +9,7 @@ abstract class CalibrationData with _$CalibrationData {
   const factory CalibrationData({
     required int progress,
     required List<int> ld780,
-    required List<int>ld850,
+    required List<int> ld850,
     required List<int> pdStage1,
     required List<int> pdStage2,
   }) = _CalibrationData;

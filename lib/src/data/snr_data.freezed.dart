@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SnrData {
 
- int get snrLimit; List<int> get snr780; List<int> get snr850;
+ int get index; int get snrLimit; List<int> get snr780; List<int> get snr850;
 /// Create a copy of SnrData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SnrDataCopyWith<SnrData> get copyWith => _$SnrDataCopyWithImpl<SnrData>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SnrData&&(identical(other.snrLimit, snrLimit) || other.snrLimit == snrLimit)&&const DeepCollectionEquality().equals(other.snr780, snr780)&&const DeepCollectionEquality().equals(other.snr850, snr850));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SnrData&&(identical(other.index, index) || other.index == index)&&(identical(other.snrLimit, snrLimit) || other.snrLimit == snrLimit)&&const DeepCollectionEquality().equals(other.snr780, snr780)&&const DeepCollectionEquality().equals(other.snr850, snr850));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,snrLimit,const DeepCollectionEquality().hash(snr780),const DeepCollectionEquality().hash(snr850));
+int get hashCode => Object.hash(runtimeType,index,snrLimit,const DeepCollectionEquality().hash(snr780),const DeepCollectionEquality().hash(snr850));
 
 @override
 String toString() {
-  return 'SnrData(snrLimit: $snrLimit, snr780: $snr780, snr850: $snr850)';
+  return 'SnrData(index: $index, snrLimit: $snrLimit, snr780: $snr780, snr850: $snr850)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SnrDataCopyWith<$Res>  {
   factory $SnrDataCopyWith(SnrData value, $Res Function(SnrData) _then) = _$SnrDataCopyWithImpl;
 @useResult
 $Res call({
- int snrLimit, List<int> snr780, List<int> snr850
+ int index, int snrLimit, List<int> snr780, List<int> snr850
 });
 
 
@@ -65,9 +65,10 @@ class _$SnrDataCopyWithImpl<$Res>
 
 /// Create a copy of SnrData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? snrLimit = null,Object? snr780 = null,Object? snr850 = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? index = null,Object? snrLimit = null,Object? snr780 = null,Object? snr850 = null,}) {
   return _then(_self.copyWith(
-snrLimit: null == snrLimit ? _self.snrLimit : snrLimit // ignore: cast_nullable_to_non_nullable
+index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as int,snrLimit: null == snrLimit ? _self.snrLimit : snrLimit // ignore: cast_nullable_to_non_nullable
 as int,snr780: null == snr780 ? _self.snr780 : snr780 // ignore: cast_nullable_to_non_nullable
 as List<int>,snr850: null == snr850 ? _self.snr850 : snr850 // ignore: cast_nullable_to_non_nullable
 as List<int>,
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int snrLimit,  List<int> snr780,  List<int> snr850)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int index,  int snrLimit,  List<int> snr780,  List<int> snr850)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SnrData() when $default != null:
-return $default(_that.snrLimit,_that.snr780,_that.snr850);case _:
+return $default(_that.index,_that.snrLimit,_that.snr780,_that.snr850);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.snrLimit,_that.snr780,_that.snr850);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int snrLimit,  List<int> snr780,  List<int> snr850)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int index,  int snrLimit,  List<int> snr780,  List<int> snr850)  $default,) {final _that = this;
 switch (_that) {
 case _SnrData():
-return $default(_that.snrLimit,_that.snr780,_that.snr850);case _:
+return $default(_that.index,_that.snrLimit,_that.snr780,_that.snr850);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.snrLimit,_that.snr780,_that.snr850);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int snrLimit,  List<int> snr780,  List<int> snr850)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int index,  int snrLimit,  List<int> snr780,  List<int> snr850)?  $default,) {final _that = this;
 switch (_that) {
 case _SnrData() when $default != null:
-return $default(_that.snrLimit,_that.snr780,_that.snr850);case _:
+return $default(_that.index,_that.snrLimit,_that.snr780,_that.snr850);case _:
   return null;
 
 }
@@ -211,9 +212,10 @@ return $default(_that.snrLimit,_that.snr780,_that.snr850);case _:
 @JsonSerializable()
 
 class _SnrData implements SnrData {
-  const _SnrData({required this.snrLimit, required final  List<int> snr780, required final  List<int> snr850}): _snr780 = snr780,_snr850 = snr850;
+  const _SnrData({required this.index, required this.snrLimit, required final  List<int> snr780, required final  List<int> snr850}): _snr780 = snr780,_snr850 = snr850;
   factory _SnrData.fromJson(Map<String, dynamic> json) => _$SnrDataFromJson(json);
 
+@override final  int index;
 @override final  int snrLimit;
  final  List<int> _snr780;
 @override List<int> get snr780 {
@@ -243,16 +245,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SnrData&&(identical(other.snrLimit, snrLimit) || other.snrLimit == snrLimit)&&const DeepCollectionEquality().equals(other._snr780, _snr780)&&const DeepCollectionEquality().equals(other._snr850, _snr850));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SnrData&&(identical(other.index, index) || other.index == index)&&(identical(other.snrLimit, snrLimit) || other.snrLimit == snrLimit)&&const DeepCollectionEquality().equals(other._snr780, _snr780)&&const DeepCollectionEquality().equals(other._snr850, _snr850));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,snrLimit,const DeepCollectionEquality().hash(_snr780),const DeepCollectionEquality().hash(_snr850));
+int get hashCode => Object.hash(runtimeType,index,snrLimit,const DeepCollectionEquality().hash(_snr780),const DeepCollectionEquality().hash(_snr850));
 
 @override
 String toString() {
-  return 'SnrData(snrLimit: $snrLimit, snr780: $snr780, snr850: $snr850)';
+  return 'SnrData(index: $index, snrLimit: $snrLimit, snr780: $snr780, snr850: $snr850)';
 }
 
 
@@ -263,7 +265,7 @@ abstract mixin class _$SnrDataCopyWith<$Res> implements $SnrDataCopyWith<$Res> {
   factory _$SnrDataCopyWith(_SnrData value, $Res Function(_SnrData) _then) = __$SnrDataCopyWithImpl;
 @override @useResult
 $Res call({
- int snrLimit, List<int> snr780, List<int> snr850
+ int index, int snrLimit, List<int> snr780, List<int> snr850
 });
 
 
@@ -280,9 +282,10 @@ class __$SnrDataCopyWithImpl<$Res>
 
 /// Create a copy of SnrData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? snrLimit = null,Object? snr780 = null,Object? snr850 = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? index = null,Object? snrLimit = null,Object? snr780 = null,Object? snr850 = null,}) {
   return _then(_SnrData(
-snrLimit: null == snrLimit ? _self.snrLimit : snrLimit // ignore: cast_nullable_to_non_nullable
+index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as int,snrLimit: null == snrLimit ? _self.snrLimit : snrLimit // ignore: cast_nullable_to_non_nullable
 as int,snr780: null == snr780 ? _self._snr780 : snr780 // ignore: cast_nullable_to_non_nullable
 as List<int>,snr850: null == snr850 ? _self._snr850 : snr850 // ignore: cast_nullable_to_non_nullable
 as List<int>,

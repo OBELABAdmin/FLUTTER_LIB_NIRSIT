@@ -7,6 +7,7 @@ part 'snr_data.freezed.dart';
 abstract class SnrData with _$SnrData {
 
   const factory SnrData({
+    required int index,
     required int snrLimit,
     required List<int> snr780,
     required List<int> snr850,

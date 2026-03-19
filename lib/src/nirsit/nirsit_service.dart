@@ -176,19 +176,32 @@ class NirsitService {
       case final value when value == ReceivedDataType.measure.value: {
         final measureData = packetParser.parseMeasureData(data.payload);
         // logger.d('plug-in :  $measureData');
-        if (_measureState == MeasureState.channelRejection) {
-          if (channelRejectionCount >= snrDataCount) {
-            channelRejectionCompleted();
-            nirsitData = getSnr();
-          } else {
-            logger.d('plug-in :  channelRejectionCount = $channelRejectionCount');
-            handleChannelRejection(measureData);
+        switch (measureState) {
+          case MeasureState.channelRejection: {
             totalChannelRejectCount++;
+            logger.d('plug-in :  channelRejectionCount = $totalChannelRejectCount');
+            bool isRejectionStarted = totalChannelRejectCount >= snrDataCount;
+            handleChannelRejection(measureData, isRejectionStarted);
+            if (isRejectionStarted) {
+              snrCount++;
+            }
+            if (snrCount >= snrDataCount) {
+              channelRejectionCompleted();
+              nirsitData = getSnr();
+            } else {
+              nirsitData = NirsitData(type: Data.snr, data: SnrData(index: totalChannelRejectCount, snrLimit: 30, snr780: List.empty(), snr850: List.empty()));
+            }
           }
-        }
-        if (_measureState == MeasureState.measure) {
-          // handleMeasure(measureData);
-          nirsitData = NirsitData(type: Data.measure, data: measureData);
+          break;
+          case MeasureState.measure: {
+            // handleMeasure(measureData);
+            nirsitData = NirsitData(type: Data.measure, data: measureData);
+          }
+          break;
+          default: {
+            logger.d('plug-in :  unknown measureState: $measureState');
+            break;
+          }
         }
       }
       break;
@@ -228,10 +241,10 @@ class NirsitService {
     if (nirsitData != null) _dataController.add(nirsitData);
   }
 
-  void handleChannelRejection(MeasureData measureData, {int snrLimit = 30}) {
+  void handleChannelRejection(MeasureData measureData, bool isStated, {int snrLimit = 30}) {
     List<double> data780 = measureData.data780.map((data) => data.toDouble()).toList();
     List<double> data850 = measureData.data850.map((data) => data.toDouble()).toList();
-    _nirsitSdk.calibration(data780, data850);
+    _nirsitSdk.calibration(isStated, data780, data850);
   }
 
   void handleMeasure(MeasureData data) async {
@@ -263,7 +276,7 @@ class NirsitService {
 
   NirsitData getSnr({int snrLimit = 30}) {
     final (snr780, snr850) = _nirsitSdk.getSnr(snrLimit);
-    final snr = SnrData(snrLimit: snrLimit, snr780: snr780, snr850: snr850);
+    final snr = SnrData(index: 80, snrLimit: snrLimit, snr780: snr780, snr850: snr850);
     _nirsitSdk.clear();
     return NirsitData(type: Data.snr, data: snr);
   }

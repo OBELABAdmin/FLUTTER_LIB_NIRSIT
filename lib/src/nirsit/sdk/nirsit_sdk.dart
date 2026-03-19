@@ -64,12 +64,12 @@ class NirsitSdk {
     nirsitBindings.initialized(type);
   }
 
-  void calibration(List<double> rawData780, List<double> rawData850) {
+  void calibration(bool snr, List<double> rawData780, List<double> rawData850) {
     final ptrRawData780 = _doubleListToPointer(rawData780);
     final ptrRawData850 = _doubleListToPointer(rawData850);
     try {
       nirsitBindings.calibration(ptrRawData780, ptrRawData850);
-      nirsitBindings.addSNRRecentData();
+      if (snr) nirsitBindings.addSNRRecentData();
     } finally {
       calloc.free(ptrRawData780);
       calloc.free(ptrRawData850);
