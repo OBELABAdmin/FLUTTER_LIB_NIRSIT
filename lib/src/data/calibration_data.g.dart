@@ -11,16 +11,10 @@ part of 'calibration_data.dart';
 _CalibrationData _$CalibrationDataFromJson(Map<String, dynamic> json) =>
     _CalibrationData(
       progress: (json['progress'] as num).toInt(),
-      ld780: (json['ld780'] as List<dynamic>)
+      ldGain: (json['ldGain'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
-      ld850: (json['ld850'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
-      pdStage1: (json['pdStage1'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
-      pdStage2: (json['pdStage2'] as List<dynamic>)
+      pdGain: (json['pdGain'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
     );
@@ -28,8 +22,6 @@ _CalibrationData _$CalibrationDataFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CalibrationDataToJson(_CalibrationData instance) =>
     <String, dynamic>{
       'progress': instance.progress,
-      'ld780': instance.ld780,
-      'ld850': instance.ld850,
-      'pdStage1': instance.pdStage1,
-      'pdStage2': instance.pdStage2,
+      'ldGain': instance.ldGain,
+      'pdGain': instance.pdGain,
     };

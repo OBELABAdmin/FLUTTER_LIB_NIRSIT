@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CalibrationData {
 
- int get progress; List<int> get ld780; List<int> get ld850; List<int> get pdStage1; List<int> get pdStage2;
+ int get progress; List<int> get ldGain; List<int> get pdGain;
 /// Create a copy of CalibrationData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CalibrationDataCopyWith<CalibrationData> get copyWith => _$CalibrationDataCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalibrationData&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other.ld780, ld780)&&const DeepCollectionEquality().equals(other.ld850, ld850)&&const DeepCollectionEquality().equals(other.pdStage1, pdStage1)&&const DeepCollectionEquality().equals(other.pdStage2, pdStage2));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalibrationData&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other.ldGain, ldGain)&&const DeepCollectionEquality().equals(other.pdGain, pdGain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(ld780),const DeepCollectionEquality().hash(ld850),const DeepCollectionEquality().hash(pdStage1),const DeepCollectionEquality().hash(pdStage2));
+int get hashCode => Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(ldGain),const DeepCollectionEquality().hash(pdGain));
 
 @override
 String toString() {
-  return 'CalibrationData(progress: $progress, ld780: $ld780, ld850: $ld850, pdStage1: $pdStage1, pdStage2: $pdStage2)';
+  return 'CalibrationData(progress: $progress, ldGain: $ldGain, pdGain: $pdGain)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CalibrationDataCopyWith<$Res>  {
   factory $CalibrationDataCopyWith(CalibrationData value, $Res Function(CalibrationData) _then) = _$CalibrationDataCopyWithImpl;
 @useResult
 $Res call({
- int progress, List<int> ld780, List<int> ld850, List<int> pdStage1, List<int> pdStage2
+ int progress, List<int> ldGain, List<int> pdGain
 });
 
 
@@ -65,13 +65,11 @@ class _$CalibrationDataCopyWithImpl<$Res>
 
 /// Create a copy of CalibrationData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? progress = null,Object? ld780 = null,Object? ld850 = null,Object? pdStage1 = null,Object? pdStage2 = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? progress = null,Object? ldGain = null,Object? pdGain = null,}) {
   return _then(_self.copyWith(
 progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as int,ld780: null == ld780 ? _self.ld780 : ld780 // ignore: cast_nullable_to_non_nullable
-as List<int>,ld850: null == ld850 ? _self.ld850 : ld850 // ignore: cast_nullable_to_non_nullable
-as List<int>,pdStage1: null == pdStage1 ? _self.pdStage1 : pdStage1 // ignore: cast_nullable_to_non_nullable
-as List<int>,pdStage2: null == pdStage2 ? _self.pdStage2 : pdStage2 // ignore: cast_nullable_to_non_nullable
+as int,ldGain: null == ldGain ? _self.ldGain : ldGain // ignore: cast_nullable_to_non_nullable
+as List<int>,pdGain: null == pdGain ? _self.pdGain : pdGain // ignore: cast_nullable_to_non_nullable
 as List<int>,
   ));
 }
@@ -157,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int progress,  List<int> ld780,  List<int> ld850,  List<int> pdStage1,  List<int> pdStage2)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int progress,  List<int> ldGain,  List<int> pdGain)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CalibrationData() when $default != null:
-return $default(_that.progress,_that.ld780,_that.ld850,_that.pdStage1,_that.pdStage2);case _:
+return $default(_that.progress,_that.ldGain,_that.pdGain);case _:
   return orElse();
 
 }
@@ -178,10 +176,10 @@ return $default(_that.progress,_that.ld780,_that.ld850,_that.pdStage1,_that.pdSt
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int progress,  List<int> ld780,  List<int> ld850,  List<int> pdStage1,  List<int> pdStage2)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int progress,  List<int> ldGain,  List<int> pdGain)  $default,) {final _that = this;
 switch (_that) {
 case _CalibrationData():
-return $default(_that.progress,_that.ld780,_that.ld850,_that.pdStage1,_that.pdStage2);case _:
+return $default(_that.progress,_that.ldGain,_that.pdGain);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +196,10 @@ return $default(_that.progress,_that.ld780,_that.ld850,_that.pdStage1,_that.pdSt
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int progress,  List<int> ld780,  List<int> ld850,  List<int> pdStage1,  List<int> pdStage2)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int progress,  List<int> ldGain,  List<int> pdGain)?  $default,) {final _that = this;
 switch (_that) {
 case _CalibrationData() when $default != null:
-return $default(_that.progress,_that.ld780,_that.ld850,_that.pdStage1,_that.pdStage2);case _:
+return $default(_that.progress,_that.ldGain,_that.pdGain);case _:
   return null;
 
 }
@@ -213,36 +211,22 @@ return $default(_that.progress,_that.ld780,_that.ld850,_that.pdStage1,_that.pdSt
 @JsonSerializable()
 
 class _CalibrationData implements CalibrationData {
-  const _CalibrationData({required this.progress, required final  List<int> ld780, required final  List<int> ld850, required final  List<int> pdStage1, required final  List<int> pdStage2}): _ld780 = ld780,_ld850 = ld850,_pdStage1 = pdStage1,_pdStage2 = pdStage2;
+  const _CalibrationData({required this.progress, required final  List<int> ldGain, required final  List<int> pdGain}): _ldGain = ldGain,_pdGain = pdGain;
   factory _CalibrationData.fromJson(Map<String, dynamic> json) => _$CalibrationDataFromJson(json);
 
 @override final  int progress;
- final  List<int> _ld780;
-@override List<int> get ld780 {
-  if (_ld780 is EqualUnmodifiableListView) return _ld780;
+ final  List<int> _ldGain;
+@override List<int> get ldGain {
+  if (_ldGain is EqualUnmodifiableListView) return _ldGain;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_ld780);
+  return EqualUnmodifiableListView(_ldGain);
 }
 
- final  List<int> _ld850;
-@override List<int> get ld850 {
-  if (_ld850 is EqualUnmodifiableListView) return _ld850;
+ final  List<int> _pdGain;
+@override List<int> get pdGain {
+  if (_pdGain is EqualUnmodifiableListView) return _pdGain;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_ld850);
-}
-
- final  List<int> _pdStage1;
-@override List<int> get pdStage1 {
-  if (_pdStage1 is EqualUnmodifiableListView) return _pdStage1;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_pdStage1);
-}
-
- final  List<int> _pdStage2;
-@override List<int> get pdStage2 {
-  if (_pdStage2 is EqualUnmodifiableListView) return _pdStage2;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_pdStage2);
+  return EqualUnmodifiableListView(_pdGain);
 }
 
 
@@ -259,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalibrationData&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other._ld780, _ld780)&&const DeepCollectionEquality().equals(other._ld850, _ld850)&&const DeepCollectionEquality().equals(other._pdStage1, _pdStage1)&&const DeepCollectionEquality().equals(other._pdStage2, _pdStage2));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalibrationData&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other._ldGain, _ldGain)&&const DeepCollectionEquality().equals(other._pdGain, _pdGain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(_ld780),const DeepCollectionEquality().hash(_ld850),const DeepCollectionEquality().hash(_pdStage1),const DeepCollectionEquality().hash(_pdStage2));
+int get hashCode => Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(_ldGain),const DeepCollectionEquality().hash(_pdGain));
 
 @override
 String toString() {
-  return 'CalibrationData(progress: $progress, ld780: $ld780, ld850: $ld850, pdStage1: $pdStage1, pdStage2: $pdStage2)';
+  return 'CalibrationData(progress: $progress, ldGain: $ldGain, pdGain: $pdGain)';
 }
 
 
@@ -279,7 +263,7 @@ abstract mixin class _$CalibrationDataCopyWith<$Res> implements $CalibrationData
   factory _$CalibrationDataCopyWith(_CalibrationData value, $Res Function(_CalibrationData) _then) = __$CalibrationDataCopyWithImpl;
 @override @useResult
 $Res call({
- int progress, List<int> ld780, List<int> ld850, List<int> pdStage1, List<int> pdStage2
+ int progress, List<int> ldGain, List<int> pdGain
 });
 
 
@@ -296,13 +280,11 @@ class __$CalibrationDataCopyWithImpl<$Res>
 
 /// Create a copy of CalibrationData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? progress = null,Object? ld780 = null,Object? ld850 = null,Object? pdStage1 = null,Object? pdStage2 = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? progress = null,Object? ldGain = null,Object? pdGain = null,}) {
   return _then(_CalibrationData(
 progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as int,ld780: null == ld780 ? _self._ld780 : ld780 // ignore: cast_nullable_to_non_nullable
-as List<int>,ld850: null == ld850 ? _self._ld850 : ld850 // ignore: cast_nullable_to_non_nullable
-as List<int>,pdStage1: null == pdStage1 ? _self._pdStage1 : pdStage1 // ignore: cast_nullable_to_non_nullable
-as List<int>,pdStage2: null == pdStage2 ? _self._pdStage2 : pdStage2 // ignore: cast_nullable_to_non_nullable
+as int,ldGain: null == ldGain ? _self._ldGain : ldGain // ignore: cast_nullable_to_non_nullable
+as List<int>,pdGain: null == pdGain ? _self._pdGain : pdGain // ignore: cast_nullable_to_non_nullable
 as List<int>,
   ));
 }

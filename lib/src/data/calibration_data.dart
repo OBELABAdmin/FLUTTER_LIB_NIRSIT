@@ -8,10 +8,8 @@ abstract class CalibrationData with _$CalibrationData {
 
   const factory CalibrationData({
     required int progress,
-    required List<int> ld780,
-    required List<int> ld850,
-    required List<int> pdStage1,
-    required List<int> pdStage2,
+    required List<int> ldGain,
+    required List<int> pdGain,
   }) = _CalibrationData;
 
   factory CalibrationData.fromJson(Map<String, dynamic> json) => _$CalibrationDataFromJson(json);

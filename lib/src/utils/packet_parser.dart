@@ -76,24 +76,11 @@ class PacketParser {
     final progress = data[0];
     final ldData = Uint8List.sublistView(data, ldOffset, ldOffset + ldSize);
     final pdData = Uint8List.sublistView(data, ldOffset + ldSize, ldOffset + ldSize + pdSize);
-    final List<int> ld780 = [];
-    final List<int> ld850 = [];
-    final List<int> pdStage1 = [];
-    final List<int> pdStage2 = [];
-    for (var i = 0; i < ldData.length; i = i + 2) {
-      ld780.add(ldData[i]);
-      ld850.add(ldData[i + 1]);
-    }
-    for (var i = 0; i < pdData.length; i = i + 2) {
-      pdStage1.add(pdData[i]);
-      pdStage2.add(pdData[i + 1]);
-    }
+
     return CalibrationData(
       progress: progress,
-      ld780: ld780,
-      ld850: ld850,
-      pdStage1: pdStage1,
-      pdStage2: pdStage2
+      ldGain: ldData.toList(),
+      pdGain: pdData.toList(),
     );
   }
 
