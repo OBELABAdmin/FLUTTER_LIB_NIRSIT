@@ -221,10 +221,12 @@ class NirsitService {
       case final value when value == ReceivedDataType.mainVersion.value:
       case final value when value == ReceivedDataType.wifiVersion.value: {
         final version = packetParser.parseVersion(data);
-        logger.d('plug-in :  $version');
+        // logger.d('plug-in :  $version');
         if (data.dataType == ReceivedDataType.mainVersion.value) {
+          logger.d('plug-in main version :  $version');
           nirsitData = NirsitData(type: Data.mainVersion, data: version);
         } else {
+          logger.d('plug-in wifi version :  $version');
           nirsitData = NirsitData(type: Data.wifiVersion , data: version);
         }
     }
@@ -297,10 +299,12 @@ class NirsitService {
   }
 
   Future<void> stopMeasure() async {
-    _updateMeasureState(MeasureState.stop);
     var command = getStopMeasureCommand();
-    await send(command);
-    _nirsitSdk.clear();
+    send(command).then((value) async {
+      await Future.delayed(Duration(milliseconds: 500));
+      _updateMeasureState(MeasureState.stop);
+      _nirsitSdk.clear();
+    });
   }
 
   Future<void> startChannelRejection() async {
