@@ -14,10 +14,10 @@ _MeasureData _$MeasureDataFromJson(Map<String, dynamic> json) => _MeasureData(
       .map((e) => (e as num).toInt())
       .toList(),
   data780: (json['data780'] as List<dynamic>)
-      .map((e) => (e as num).toInt())
+      .map((e) => (e as num).toDouble())
       .toList(),
   data850: (json['data850'] as List<dynamic>)
-      .map((e) => (e as num).toInt())
+      .map((e) => (e as num).toDouble())
       .toList(),
   batteryStatus: (json['batteryStatus'] as num).toInt(),
   battery: (json['battery'] as num).toInt(),

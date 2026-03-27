@@ -88,15 +88,15 @@ class PacketParser {
     final seq = parseMeasureSeq(data);
     final measureData = Uint8List.sublistView(data, measureSequenceSize, measureSequenceSize + measureDataSize);
     final List<int> rawData = [];
-    final List<int> data780List = [];
-    final List<int> data850List = [];
+    final List<double> data780List = [];
+    final List<double> data850List = [];
     for (var i = 0; i < channelCount; i++) {
       final channelData = Uint8List.sublistView(measureData, i * channelDataSize, (i + 1) * channelDataSize);
       var (data780, data850) = parseChannel(channelData);
       rawData.add(data780);
       rawData.add(data850);
-      data780List.add(data780);
-      data850List.add(data850);
+      data780List.add((data780.toDouble() / 16));
+      data850List.add((data850.toDouble() / 16));
     }
     final batteryIndex = measureSequenceSize + measureDataSize;
     final batteryData = Uint8List.sublistView(data, batteryIndex, batteryIndex + batteryInfoSize);
@@ -133,8 +133,9 @@ class PacketParser {
   }
 
   (int, int) parseChannel(Uint8List data) {
-    final data780 = data[0] << 8 | data[1];
-    final data850 = data[2] << 8 | data[3];
+    final bytes = ByteData.sublistView(data);
+    final data780 = bytes.getInt16(0, Endian.big);
+    final data850 = bytes.getInt16(2, Endian.big);
     return (data780, data850);
   }
 
@@ -161,5 +162,4 @@ class PacketParser {
     }
     return sum & 0xFF;
   }
-
 }

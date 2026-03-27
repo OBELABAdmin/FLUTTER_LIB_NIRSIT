@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MeasureData {
 
- int get sequence; List<int> get rawData; List<int> get data780; List<int> get data850; int get batteryStatus; int get battery; int get accX; int get accY; int get accZ; int get gyroX; int get gyroY; int get gyroZ;
+ int get sequence; List<int> get rawData; List<double> get data780; List<double> get data850; int get batteryStatus; int get battery; int get accX; int get accY; int get accZ; int get gyroX; int get gyroY; int get gyroZ;
 /// Create a copy of MeasureData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $MeasureDataCopyWith<$Res>  {
   factory $MeasureDataCopyWith(MeasureData value, $Res Function(MeasureData) _then) = _$MeasureDataCopyWithImpl;
 @useResult
 $Res call({
- int sequence, List<int> rawData, List<int> data780, List<int> data850, int batteryStatus, int battery, int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ
+ int sequence, List<int> rawData, List<double> data780, List<double> data850, int batteryStatus, int battery, int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ
 });
 
 
@@ -70,8 +70,8 @@ class _$MeasureDataCopyWithImpl<$Res>
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,rawData: null == rawData ? _self.rawData : rawData // ignore: cast_nullable_to_non_nullable
 as List<int>,data780: null == data780 ? _self.data780 : data780 // ignore: cast_nullable_to_non_nullable
-as List<int>,data850: null == data850 ? _self.data850 : data850 // ignore: cast_nullable_to_non_nullable
-as List<int>,batteryStatus: null == batteryStatus ? _self.batteryStatus : batteryStatus // ignore: cast_nullable_to_non_nullable
+as List<double>,data850: null == data850 ? _self.data850 : data850 // ignore: cast_nullable_to_non_nullable
+as List<double>,batteryStatus: null == batteryStatus ? _self.batteryStatus : batteryStatus // ignore: cast_nullable_to_non_nullable
 as int,battery: null == battery ? _self.battery : battery // ignore: cast_nullable_to_non_nullable
 as int,accX: null == accX ? _self.accX : accX // ignore: cast_nullable_to_non_nullable
 as int,accY: null == accY ? _self.accY : accY // ignore: cast_nullable_to_non_nullable
@@ -164,7 +164,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  List<int> rawData,  List<int> data780,  List<int> data850,  int batteryStatus,  int battery,  int accX,  int accY,  int accZ,  int gyroX,  int gyroY,  int gyroZ)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  List<int> rawData,  List<double> data780,  List<double> data850,  int batteryStatus,  int battery,  int accX,  int accY,  int accZ,  int gyroX,  int gyroY,  int gyroZ)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MeasureData() when $default != null:
 return $default(_that.sequence,_that.rawData,_that.data780,_that.data850,_that.batteryStatus,_that.battery,_that.accX,_that.accY,_that.accZ,_that.gyroX,_that.gyroY,_that.gyroZ);case _:
@@ -185,7 +185,7 @@ return $default(_that.sequence,_that.rawData,_that.data780,_that.data850,_that.b
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  List<int> rawData,  List<int> data780,  List<int> data850,  int batteryStatus,  int battery,  int accX,  int accY,  int accZ,  int gyroX,  int gyroY,  int gyroZ)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  List<int> rawData,  List<double> data780,  List<double> data850,  int batteryStatus,  int battery,  int accX,  int accY,  int accZ,  int gyroX,  int gyroY,  int gyroZ)  $default,) {final _that = this;
 switch (_that) {
 case _MeasureData():
 return $default(_that.sequence,_that.rawData,_that.data780,_that.data850,_that.batteryStatus,_that.battery,_that.accX,_that.accY,_that.accZ,_that.gyroX,_that.gyroY,_that.gyroZ);case _:
@@ -205,7 +205,7 @@ return $default(_that.sequence,_that.rawData,_that.data780,_that.data850,_that.b
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  List<int> rawData,  List<int> data780,  List<int> data850,  int batteryStatus,  int battery,  int accX,  int accY,  int accZ,  int gyroX,  int gyroY,  int gyroZ)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  List<int> rawData,  List<double> data780,  List<double> data850,  int batteryStatus,  int battery,  int accX,  int accY,  int accZ,  int gyroX,  int gyroY,  int gyroZ)?  $default,) {final _that = this;
 switch (_that) {
 case _MeasureData() when $default != null:
 return $default(_that.sequence,_that.rawData,_that.data780,_that.data850,_that.batteryStatus,_that.battery,_that.accX,_that.accY,_that.accZ,_that.gyroX,_that.gyroY,_that.gyroZ);case _:
@@ -220,7 +220,7 @@ return $default(_that.sequence,_that.rawData,_that.data780,_that.data850,_that.b
 @JsonSerializable()
 
 class _MeasureData implements MeasureData {
-  const _MeasureData({required this.sequence, required final  List<int> rawData, required final  List<int> data780, required final  List<int> data850, required this.batteryStatus, required this.battery, required this.accX, required this.accY, required this.accZ, required this.gyroX, required this.gyroY, required this.gyroZ}): _rawData = rawData,_data780 = data780,_data850 = data850;
+  const _MeasureData({required this.sequence, required final  List<int> rawData, required final  List<double> data780, required final  List<double> data850, required this.batteryStatus, required this.battery, required this.accX, required this.accY, required this.accZ, required this.gyroX, required this.gyroY, required this.gyroZ}): _rawData = rawData,_data780 = data780,_data850 = data850;
   factory _MeasureData.fromJson(Map<String, dynamic> json) => _$MeasureDataFromJson(json);
 
 @override final  int sequence;
@@ -231,15 +231,15 @@ class _MeasureData implements MeasureData {
   return EqualUnmodifiableListView(_rawData);
 }
 
- final  List<int> _data780;
-@override List<int> get data780 {
+ final  List<double> _data780;
+@override List<double> get data780 {
   if (_data780 is EqualUnmodifiableListView) return _data780;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_data780);
 }
 
- final  List<int> _data850;
-@override List<int> get data850 {
+ final  List<double> _data850;
+@override List<double> get data850 {
   if (_data850 is EqualUnmodifiableListView) return _data850;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_data850);
@@ -287,7 +287,7 @@ abstract mixin class _$MeasureDataCopyWith<$Res> implements $MeasureDataCopyWith
   factory _$MeasureDataCopyWith(_MeasureData value, $Res Function(_MeasureData) _then) = __$MeasureDataCopyWithImpl;
 @override @useResult
 $Res call({
- int sequence, List<int> rawData, List<int> data780, List<int> data850, int batteryStatus, int battery, int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ
+ int sequence, List<int> rawData, List<double> data780, List<double> data850, int batteryStatus, int battery, int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ
 });
 
 
@@ -309,8 +309,8 @@ class __$MeasureDataCopyWithImpl<$Res>
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,rawData: null == rawData ? _self._rawData : rawData // ignore: cast_nullable_to_non_nullable
 as List<int>,data780: null == data780 ? _self._data780 : data780 // ignore: cast_nullable_to_non_nullable
-as List<int>,data850: null == data850 ? _self._data850 : data850 // ignore: cast_nullable_to_non_nullable
-as List<int>,batteryStatus: null == batteryStatus ? _self.batteryStatus : batteryStatus // ignore: cast_nullable_to_non_nullable
+as List<double>,data850: null == data850 ? _self._data850 : data850 // ignore: cast_nullable_to_non_nullable
+as List<double>,batteryStatus: null == batteryStatus ? _self.batteryStatus : batteryStatus // ignore: cast_nullable_to_non_nullable
 as int,battery: null == battery ? _self.battery : battery // ignore: cast_nullable_to_non_nullable
 as int,accX: null == accX ? _self.accX : accX // ignore: cast_nullable_to_non_nullable
 as int,accY: null == accY ? _self.accY : accY // ignore: cast_nullable_to_non_nullable

@@ -9,8 +9,8 @@ abstract class MeasureData with _$MeasureData {
   const factory MeasureData({
     required int sequence,
     required List<int> rawData,
-    required List<int> data780,
-    required List<int> data850,
+    required List<double> data780,
+    required List<double> data850,
     required int batteryStatus,
     required int battery,
     required int accX,
