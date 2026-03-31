@@ -20,14 +20,14 @@ abstract class SnrData with _$SnrData {
 }
 
 extension SnrDataExtension on SnrData {
-  List<int> activeChannel(List<int> snr780, List<int> snr850) {
+  List<int> activeChannel(int snrLimit, List<int> snr780, List<int> snr850) {
     return List.generate(48, (i) => i)
-        .where((i) => snr780[i] > defaultSnrLimit && snr850[i] > defaultSnrLimit)
+        .where((i) => snr780[i] > snrLimit && snr850[i] > snrLimit)
         .toList();
   }
 
-  bool isPass() {
-    List<int> activeChannels = activeChannel(snr780, snr850);
+  bool isPass({int snrLimit = defaultSnrLimit}) {
+    List<int> activeChannels = activeChannel(snrLimit, snr780, snr850);
     int r1Pass = r1ChannelIndex.where(activeChannels.contains).length;
     int r2Pass = r2ChannelIndex.where(activeChannels.contains).length;
     return r1Pass > 25 && r2Pass > 6;
