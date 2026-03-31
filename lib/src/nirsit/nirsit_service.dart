@@ -123,20 +123,23 @@ class NirsitService {
   Future<NirsitConnectionState> connect(String ip, int port) async {
     _ip = ip;
     _port = port;
-    var connectionState = NirsitConnectionState.disconnected;
+    var state = NirsitConnectionState.disconnected;
     try {
       _socket = await Socket.connect(ip, port, timeout: Duration(seconds: 20));
       _socket!.setOption(SocketOption.tcpNoDelay, true);
       _socket?.listen(onReceived, onError: onError, onDone: onDone);
       logger.d('plug-in :  _socket $_socket');
       if (_socket != null) {
-        connectionState = NirsitConnectionState.connected;
+        state = NirsitConnectionState.connected;
       }
     } on Exception catch (_, e) {
       logger.e('plug-in :  connect Exception: $e');
+      _socket?.close();
+      _socket = null;
+      state = NirsitConnectionState.disconnected;
     }
-    _updateConnectionState(connectionState);
-    return connectState;
+    _updateConnectionState(state);
+    return state;
   }
 
   bool isConnected() => _connectState == NirsitConnectionState.connected;
