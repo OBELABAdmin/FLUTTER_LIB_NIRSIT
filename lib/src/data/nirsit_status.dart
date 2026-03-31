@@ -1,6 +1,7 @@
 enum NirsitConnectionState {
   disconnected,
-  connected
+  connected,
+  connecting
 }
 
 enum MeasureState {
