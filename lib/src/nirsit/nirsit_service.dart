@@ -154,7 +154,6 @@ class NirsitService {
     } finally {
       _socket = null;
       _updateConnectionState(NirsitConnectionState.disconnected);
-      _nirsitSdk.clear();
     }
   }
 
