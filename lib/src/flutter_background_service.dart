@@ -105,7 +105,7 @@ void _registerNirsitMethodHandler(ServiceInstance service, NirsitService nirsit)
   });
 
   service.on(methodGainCal).listen((event) async {
-    await nirsit.startGainCal(snrLimit: event?[keySnrLimit] ?? 30);
+    await nirsit.startGainCal(snrLimit: event?[keySnrLimit] ?? defaultSnrLimit);
   });
 
   service.on(methodChannelRejection).listen((event) => nirsit.startChannelRejection());
@@ -117,7 +117,7 @@ void _registerNirsitMethodHandler(ServiceInstance service, NirsitService nirsit)
   service.on(methodStop).listen((event) => nirsit.stopMeasure());
 
   service.on(methodSetSnrLimit).listen((event) {
-    nirsit.setSnrLimit(event?[keySnrLimit] ?? 30);
+    nirsit.setSnrLimit(event?[keySnrLimit] ?? defaultSnrLimit);
   });
 
   service.on(methodSetOptions).listen((event) {

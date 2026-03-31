@@ -1,6 +1,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../nirsit/nirsit_service.dart';
 import 'constants.dart';
 
 part 'snr_data.g.dart';
@@ -21,7 +22,7 @@ abstract class SnrData with _$SnrData {
 extension SnrDataExtension on SnrData {
   List<int> activeChannel(List<int> snr780, List<int> snr850) {
     return List.generate(48, (i) => i)
-        .where((i) => snr780[i] > 30 && snr850[i] > 30)
+        .where((i) => snr780[i] > defaultSnrLimit && snr850[i] > defaultSnrLimit)
         .toList();
   }
 

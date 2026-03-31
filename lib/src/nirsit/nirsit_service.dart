@@ -19,6 +19,8 @@ import '../utils/nirsit_command_utils.dart';
 import '../utils/packet_parser.dart';
 import 'sdk/nirsit_sdk.dart';
 
+const defaultSnrLimit = 21;
+
 @internal
 class NirsitService {
 
@@ -195,7 +197,7 @@ class NirsitService {
               channelRejectionCompleted();
               nirsitData = getSnr();
             } else {
-              nirsitData = NirsitData(type: Data.snr, data: SnrData(index: totalChannelRejectCount, snrLimit: 30, snr780: List.empty(), snr850: List.empty()));
+              nirsitData = NirsitData(type: Data.snr, data: SnrData(index: totalChannelRejectCount, snrLimit: defaultSnrLimit, snr780: List.empty(), snr850: List.empty()));
             }
           }
           break;
@@ -215,9 +217,7 @@ class NirsitService {
         final calData = packetParser.parseCalibrationData(data.payload);
         logger.d('plug-in :  $calData');
         nirsitData = NirsitData(type: Data.gainCal, data: calData);
-        if (calData.progress == 100) {
-          logger.d('plug-in :  progress = ${calData.progress} - calibration completed');
-        }
+        if (calData.progress == 100) logger.d('plug-in :  progress = ${calData.progress} - calibration completed');
       }
       break;
       case final value when value == ReceivedDataType.gainCalCompleted.value: {
@@ -249,7 +249,7 @@ class NirsitService {
     if (nirsitData != null) _dataController.add(nirsitData);
   }
 
-  void handleChannelRejection(MeasureData measureData, bool isStated, {int snrLimit = 30}) {
+  void handleChannelRejection(MeasureData measureData, bool isStated, {int snrLimit = defaultSnrLimit}) {
     List<double> data780 = measureData.data780.map((data) => data.toDouble()).toList();
     List<double> data850 = measureData.data850.map((data) => data.toDouble()).toList();
     _nirsitSdk.calibration(isStated, data780, data850);
@@ -282,14 +282,14 @@ class NirsitService {
   }
 
 
-  NirsitData getSnr({int snrLimit = 30}) {
+  NirsitData getSnr({int snrLimit = defaultSnrLimit}) {
     final (snr780, snr850) = _nirsitSdk.getSnr(snrLimit);
     final snr = SnrData(index: 80, snrLimit: snrLimit, snr780: snr780, snr850: snr850);
     _nirsitSdk.clear();
     return NirsitData(type: Data.snr, data: snr);
   }
 
-  Future<void> startGainCal({int snrLimit = 30}) async {
+  Future<void> startGainCal({int snrLimit = defaultSnrLimit}) async {
     _nirsitSdk.clear();
     _updateMeasureState(MeasureState.gainCal);
     var command = getGainCalCommand();
@@ -298,7 +298,7 @@ class NirsitService {
 
   Future<void> startMeasure() async {
     _nirsitSdk.clear();
-    setSnrLimit(30);
+    setSnrLimit(defaultSnrLimit);
     _updateMeasureState(MeasureState.measure);
     var command = getStartMeasureCommand();
     await send(command);
@@ -317,7 +317,7 @@ class NirsitService {
     logger.d('plug-in :  _startChannelRejection');
     _updateMeasureState(MeasureState.channelRejection);
     _nirsitSdk.initChannelRejectFlag();
-    _nirsitSdk.setSnrLimit(30);
+    _nirsitSdk.setSnrLimit(defaultSnrLimit);
     var command = getStartMeasureCommand();
     await send(command);
   }
