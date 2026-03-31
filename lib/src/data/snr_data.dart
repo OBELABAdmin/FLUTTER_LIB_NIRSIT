@@ -29,6 +29,6 @@ extension SnrDataExtension on SnrData {
     List<int> activeChannels = activeChannel(snr780, snr850);
     int r1Pass = r1ChannelIndex.where(activeChannels.contains).length;
     int r2Pass = r2ChannelIndex.where(activeChannels.contains).length;
-    return r1Pass >= 6 && r2Pass >= 6;
+    return r1Pass > 25 && r2Pass > 6;
   }
 }
