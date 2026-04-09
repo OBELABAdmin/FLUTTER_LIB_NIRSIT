@@ -87,6 +87,8 @@ class NirsitPlugin {
 
   Future<List<WiFiAccessPoint>> scan() => wifiService.scan();
 
+  Future<bool> connectWifi(String ssid, String bssid, String password) => wifiService.connect(ssid, bssid, password);
+
   Future<String?> getConnectedWifiSsid() => wifiService.getConnectedWifiSsid();
 
   Future<bool> isConnected() => wifiService.isConnected();
