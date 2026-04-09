@@ -52,8 +52,11 @@ class WifiService {
 
   Future<bool> connect(String ssid, String bssid, String password) async {
     logger.d('plug-in :  ssid: $ssid, password: $password');
-    return await WiFiForIoTPlugin
+    bool connected = await WiFiForIoTPlugin
         .connect(ssid, bssid: bssid, password: password, joinOnce: false, security: NetworkSecurity.WPA, withInternet: false);
+    bool forceWifiUsage = await WiFiForIoTPlugin.forceWifiUsage(true);
+    logger.d('plug-in :  connected: $connected, forceWifiUsage: $forceWifiUsage');
+    return connected;
   }
 }
 
