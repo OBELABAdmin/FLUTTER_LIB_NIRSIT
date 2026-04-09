@@ -111,7 +111,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
   Future<void> _openWifiSetting() async {
     final isGranted = await requestLocationPermission();
     if (isGranted) {
-      AppSettings.openAppSettings(type: AppSettingsType.wifi, asAnotherTask: true);
+      _viewModel.scanWifi();
+      //AppSettings.openAppSettings(type: AppSettingsType.wifi, asAnotherTask: true);
     }
   }
 
@@ -131,6 +132,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.3,
+            child: _buildWifiList(),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.3,
             child: _buildConnectedDevice(),
           ),
           SizedBox(
@@ -144,6 +149,22 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
         tooltip: 'scan wifi',
         child: const Icon(Icons.wifi),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget _buildWifiList() {
+    final wifiList = _viewModel.wifiList;
+    return Column(
+      children: [
+        for(var wifi in wifiList)
+          Padding(padding: EdgeInsetsGeometry.symmetric(vertical: 30),
+              child: GestureDetector(
+                onTap: () => _viewModel.connectWifi(wifi.ssid, wifi.bssid, '12345678'),
+                child: Text(
+                    wifi.ssid,
+                    style: TextStyle(color: Color(0xff000000), fontSize: 20)),
+              ))
+      ],
     );
   }
 

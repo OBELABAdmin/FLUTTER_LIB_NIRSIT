@@ -47,6 +47,9 @@ class MainViewModel extends ChangeNotifier {
 
   BatteryInfo get batteryInfo => _batteryInfo;
 
+  List<WiFiAccessPoint> _wifiList = [];
+  List<WiFiAccessPoint> get wifiList => _wifiList;
+
   MainViewModel(this._ref) {
     connectStateStream.listen((state) {
       _connectionState = state;
@@ -169,4 +172,21 @@ class MainViewModel extends ChangeNotifier {
   }
 
   bool isNirsitConnected() => connectionState == NirsitConnectionState.connected;
+
+  Future<void> scanWifi() async {
+    logger.d("_scanWifi");
+    _wifiList.clear();
+    final wifiList = await _nirsitPlugin.scan();
+    logger.d("_scanWifi : ${wifiList.length}");
+    for (var element in wifiList) {
+      logger.d("_scanWifi wifi ssid : ${element.ssid} , ${element.bssid}");
+      _wifiList.add(element);
+    }
+    notifyListeners();
+  }
+
+  Future<void> connectWifi(String ssid, String bssid, String password) async {
+    bool connected = await _nirsitPlugin.wifiService.connect(ssid, bssid, password);
+    logger.d("_connectWifi connected : $connected");
+  }
 }
