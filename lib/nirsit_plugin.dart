@@ -91,9 +91,9 @@ class NirsitPlugin {
 
   Future<String?> getConnectedWifiSsid() => wifiService.getConnectedWifiSsid();
 
-  Future<bool> isConnected() => wifiService.isConnected();
+  Future<bool> isWifiConnected() => wifiService.isConnected();
 
-  Future<bool> disconnect() => wifiService.disconnect();
+  Future<bool> disconnectWifi() => wifiService.disconnect();
 
   Future<bool> isWifiEnabled() => wifiService.isWifiEnabled();
 
