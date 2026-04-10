@@ -125,7 +125,7 @@ class NirsitService {
     _port = port;
     var state = NirsitConnectionState.disconnected;
     try {
-      _socket = await Socket.connect(ip, port, timeout: Duration(seconds: 20));
+      _socket = await Socket.connect(ip, port, timeout: Duration(seconds: 10));
       _socket!.setOption(SocketOption.tcpNoDelay, true);
       _socket?.listen(onReceived, onError: onError, onDone: onDone);
       logger.d('plug-in :  _socket $_socket');
