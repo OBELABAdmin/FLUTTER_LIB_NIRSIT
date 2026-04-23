@@ -3,9 +3,12 @@ library nirsit_plugin;
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:nirsit_plugin/src/data/nirsit_command.dart';
 import 'package:nirsit_plugin/src/data/nirsit_data.dart';
 import 'package:nirsit_plugin/src/flutter_background_service.dart';
+import 'package:nirsit_plugin/src/nirsit/nirsit_service.dart';
 import 'package:nirsit_plugin/src/nirsit_plugin_platform_interface.dart';
 import 'package:nirsit_plugin/src/utils/logger.dart';
 import 'package:nirsit_plugin/src/wifi/wifi_service.dart';
@@ -27,7 +30,8 @@ Future<void> startForegroundService() => initializeService();
 
 class NirsitPlugin {
   final wifiService = WifiService();
-  final service = FlutterBackgroundService();
+  FlutterBackgroundService? _service;
+  NirsitService? _nirsitService;
 
   NirsitConnectionState _nirsitConnectionState = NirsitConnectionState.disconnected;
   NirsitConnectionState get nirsitConnectionState => _nirsitConnectionState;
@@ -43,36 +47,68 @@ class NirsitPlugin {
   final StreamController<NirsitConnectionState> _connectionStateController = StreamController.broadcast();
   Stream<NirsitConnectionState> get connectStateStream => _connectionStateController.stream;
 
+  bool get isBackgroundSupported => !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
+
   NirsitPlugin() {
-    service.on(methodConnectionState).listen((state) {
-      try {
-        final statName = state?[keyConnectState];
-        logger.d("service on connectionState? - $statName");
-        _nirsitConnectionState = NirsitConnectionState.values.byName(statName);
-        _connectionStateController.add(NirsitConnectionState.values.byName(statName));
-      } catch (e, stackTrace) {
-        logger.e("service on connectionState?", error: e, stackTrace: stackTrace);
-      }
-    });
-    service.on(methodMeasureState).listen((state) {
-      try {
-        final statName = state?[keyMeasureState];
-        logger.d("service on measureState? - $statName");
-        _measureStateController.add(MeasureState.values.byName(statName));
-      } catch (e, stackTrace) {
-        logger.e("service on measureState?", error: e, stackTrace: stackTrace);
-      }
-    });
-    service.on(methodData).listen((data) {
-      logger.d("service on data? - $data");
-      try {
-        final nirsitData = NirsitData.fromJson(data?[keyData]);
-        logger.d("nirsitData? - $nirsitData");
-        _dataController.add(nirsitData);
-      } catch (e, stackTrace) {
-        logger.e("service on data?", error: e, stackTrace: stackTrace);
-      }
-    });
+    if (isBackgroundSupported) {
+      _service = FlutterBackgroundService();
+      _service?.on(methodConnectionState).listen((state) {
+        try {
+          final statName = state?[keyConnectState];
+          logger.d("service on connectionState? - $statName");
+          _nirsitConnectionState = NirsitConnectionState.values.byName(statName);
+          _connectionStateController.add(NirsitConnectionState.values.byName(statName));
+        } catch (e, stackTrace) {
+          logger.e("service on connectionState?", error: e, stackTrace: stackTrace);
+        }
+      });
+      _service?.on(methodMeasureState).listen((state) {
+        try {
+          final statName = state?[keyMeasureState];
+          logger.d("service on measureState? - $statName");
+          _measureStateController.add(MeasureState.values.byName(statName));
+        } catch (e, stackTrace) {
+          logger.e("service on measureState?", error: e, stackTrace: stackTrace);
+        }
+      });
+      _service?.on(methodData).listen((data) {
+        logger.d("service on data? - $data");
+        try {
+          final nirsitData = NirsitData.fromJson(data?[keyData]);
+          logger.d("nirsitData? - $nirsitData");
+          _dataController.add(nirsitData);
+        } catch (e, stackTrace) {
+          logger.e("service on data?", error: e, stackTrace: stackTrace);
+        }
+      });
+    } else {
+      _nirsitService = NirsitService();
+      _nirsitService?.connectionStateStream.listen((state) {
+        try {
+          logger.d("connectionState? - $state");
+          _nirsitConnectionState = state;
+          _connectionStateController.add(state);
+        } catch (e, stackTrace) {
+          logger.e("connectionState?", error: e, stackTrace: stackTrace);
+        }
+      });
+      _nirsitService?.measureStateStream.listen((state) {
+        try {
+          logger.d("measureState? - $state");
+          _measureStateController.add(state);
+        } catch (e, stackTrace) {
+          logger.e("measureState?", error: e, stackTrace: stackTrace);
+        }
+      });
+      _nirsitService?.dataStream.listen((data) {
+        try {
+          logger.d("nirsitData? - $data");
+          _dataController.add(data);
+        } catch (e, stackTrace) {
+          logger.e("nirsitData?", error: e, stackTrace: stackTrace);
+        }
+      });
+    }
   }
 
   void dispose() {
@@ -98,30 +134,104 @@ class NirsitPlugin {
   Future<bool> isWifiEnabled() => wifiService.isWifiEnabled();
 
 
-  void connectNirsit(String ip, int port) => service.invoke(methodConnect, {keyIp: ip, keyPort: port});
+  void connectNirsit(String ip, int port) {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodConnect, {keyIp: ip, keyPort: port});
+    } else {
+      _nirsitService?.connect(ip, port);
+    }
+  }
 
-  void startGainCal(int snrLimit) => service.invoke(methodGainCal, {keySnrLimit: snrLimit});
+  void startGainCal(int snrLimit) {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodGainCal, {keySnrLimit: snrLimit});
+    } else {
+      _nirsitService?.startGainCal(snrLimit: snrLimit);
+    }
+  }
 
-  void startChannelRejection() => service.invoke(methodChannelRejection);
+  void startChannelRejection() {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodChannelRejection);
+    } else {
+      _nirsitService?.startChannelRejection();
+    }
+  }
 
-  void setSnrLimit(int snrLimit) => service.invoke(methodSetSnrLimit, {keySnrLimit: snrLimit});
+  void setSnrLimit(int snrLimit) {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodSetSnrLimit, {keySnrLimit: snrLimit});
+    } else {
+      _nirsitService?.setSnrLimit(snrLimit);
+    }
+  }
 
-  void setDSPOptions(int options) => service.invoke(methodSetOptions, {keyDspOptions: options});
+  void setDSPOptions(int options) {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodSetOptions, {keyDspOptions: options});
+    } else {
+      _nirsitService?.setDSPOptions(options);
+    }
+  }
 
-  void startMeasure() => service.invoke(methodMeasure);
+  void startMeasure() {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodMeasure);
+    } else {
+      _nirsitService?.startMeasure();
+    }
+  }
 
 
-  void stopMeasure() => service.invoke(methodStop);
+  void stopMeasure() {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodStop);
+    } else {
+      _nirsitService?.stopMeasure();
+    }
+  }
 
-  void stopGainCal() => service.invoke(methodStopGainCal);
+  void stopGainCal() {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodStopGainCal);
+    } else {
+      _nirsitService?.stopMeasure();
+    }
+  }
 
-  void requestTestCommand() => service.invoke(methodTest);
+  void requestTestCommand() {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodTest);
+    } else {
+      _nirsitService?.sendTestCommand();
+    }
+  }
 
-  void requestBatteryInto() => service.invoke(methodBattery);
+  void requestBatteryInto() {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodBattery);
+    } else {
+      _nirsitService?.getBatteryInfo();
+    }
+  }
 
-  void requestVersion() => service.invoke(methodVersion);
+  Future<void> requestVersion() async {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodVersion);
+    } else {
+      await _nirsitService?.getVersion(ReceivedDataType.mainVersion);
+      await Future.delayed(const Duration(milliseconds: 500));
+      await _nirsitService?.getVersion(ReceivedDataType.wifiVersion);
+    }
+  }
 
-  void disconnectNirsit() => service.invoke(methodDisconnect);
+  void disconnectNirsit() {
+    if (isBackgroundSupported) {
+      _service?.invoke(methodDisconnect);
+    } else {
+      _nirsitService?.disconnect();
+    }
+  }
 
   Future<double> testNirsitSdk() async {
     logger.d('plug-in :  Calling native function: nirsit_sdk_test');
@@ -136,4 +246,5 @@ class NirsitPlugin {
       return Future.error('Error calling native function');
     }
   }
+
 }
