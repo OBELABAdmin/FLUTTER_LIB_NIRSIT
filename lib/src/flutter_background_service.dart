@@ -121,7 +121,7 @@ void _registerNirsitMethodHandler(ServiceInstance service, NirsitService nirsit)
   });
 
   service.on(methodSetOptions).listen((event) {
-    nirsit.setSnrLimit(event?[keyDspOptions] ?? dspOptionsAll);
+    nirsit.setDSPOptions(event?[keyDspOptions] ?? dspOptionsAll);
   });
 
   service.on(methodVersion).listen((event) async {
