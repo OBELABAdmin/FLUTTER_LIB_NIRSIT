@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:nirsit_plugin/src/data/wifi/wifi_network_info.dart';
 import 'package:nirsit_plugin/src/flutter_background_service.dart';
 import 'package:nirsit_plugin/src/nirsit/desktop_nirsit_implementation.dart';
 import 'package:nirsit_plugin/src/nirsit/mobile_nirsit_implementation.dart';
@@ -63,7 +64,7 @@ class NirsitPlugin {
     return NirsitPluginPlatform.instance.getPlatformVersion();
   }
 
-  Future<List<WiFiAccessPoint>> scan() => wifiService.scan();
+  Future<List<WifiNetworkInfo>> scan() => wifiService.scan();
 
   Future<bool> connectWifi(String ssid, String bssid, String password) => wifiService.connect(ssid, bssid, password);
 
