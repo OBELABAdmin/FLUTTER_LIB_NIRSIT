@@ -23,6 +23,7 @@ dependencies:
   flutter_local_notifications: ^19.5.0
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
+  win32: ^5.0.0
 
 dev_dependencies:
   ffigen: ^20.0.0
