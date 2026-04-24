@@ -26,6 +26,7 @@ export 'src/data/snr_data.dart';
 export 'src/data/nirsit_data.dart';
 export 'src/data/nirsit_status.dart';
 export 'src/data/data_enum.dart';
+export 'src/data/wifi/wifi_network_info.dart';
 
 Future<void> startForegroundService() {
   if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS)) {
