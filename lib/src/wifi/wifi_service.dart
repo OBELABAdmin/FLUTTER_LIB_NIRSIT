@@ -43,9 +43,7 @@ class WifiService {
     }
   }
 
-  Future<String?> getConnectedWifiSsid() async {
-    return await WiFiForIoTPlugin.getSSID();
-  }
+  Future<String?> getConnectedWifiSsid() => Platform.isWindows ? WifiWindows.getSSID() : WiFiForIoTPlugin.getSSID();
 
   Future<bool> isConnected() => Platform.isWindows ? WifiWindows.isConnected() : WiFiForIoTPlugin.isConnected();
 

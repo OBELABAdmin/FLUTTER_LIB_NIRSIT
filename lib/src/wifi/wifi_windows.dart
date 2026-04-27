@@ -270,6 +270,73 @@ class WifiWindows {
     }
   }
 
+  static Future<String?> getSSID() async {
+    final clientHandle = calloc<HANDLE>();
+    final negotiatedVersion = calloc<DWORD>();
+
+    try {
+      final openResult = WlanOpenHandle(2, nullptr, negotiatedVersion, clientHandle);
+      if (openResult != ERROR_SUCCESS) return null;
+
+      final interfaceListPtr = calloc<Pointer<WLAN_INTERFACE_INFO_LIST>>();
+      try {
+        final enumResult = WlanEnumInterfaces(clientHandle.value, nullptr, interfaceListPtr);
+        if (enumResult != ERROR_SUCCESS) return null;
+
+        final interfaceList = interfaceListPtr.value.ref;
+        if (interfaceList.dwNumberOfItems == 0) return null;
+
+        final iface = interfaceList.InterfaceInfo[0];
+        final guidPtr = calloc<GUID>()..ref = iface.InterfaceGuid;
+
+        final dataSizePtr = calloc<DWORD>();
+        final connectionPtr = calloc<Pointer<WLAN_CONNECTION_ATTRIBUTES>>();
+
+        try {
+          final queryResult = WlanQueryInterface(
+            clientHandle.value,
+            guidPtr,
+            wlan_intf_opcode_current_connection,
+            nullptr,
+            dataSizePtr,
+            connectionPtr.cast(),
+            nullptr,
+          );
+
+          if (queryResult != ERROR_SUCCESS) return null;
+
+          final connection = connectionPtr.value.ref;
+          final ssidObj = connection.wlanAssociationAttributes.dot11Ssid;
+          final length = ssidObj.uSSIDLength;
+          
+          if (length == 0) return null;
+
+          final codes = <int>[];
+          for (var i = 0; i < length; i++) {
+            codes.add(ssidObj.ucSSID[i]);
+          }
+          return String.fromCharCodes(codes);
+        } finally {
+          if (connectionPtr.value != nullptr) {
+            WlanFreeMemory(connectionPtr.value);
+          }
+          calloc.free(dataSizePtr);
+          calloc.free(connectionPtr);
+          calloc.free(guidPtr);
+        }
+      } finally {
+        if (interfaceListPtr.value != nullptr) {
+          WlanFreeMemory(interfaceListPtr.value);
+        }
+        calloc.free(interfaceListPtr);
+      }
+    } finally {
+      WlanCloseHandle(clientHandle.value, nullptr);
+      calloc.free(clientHandle);
+      calloc.free(negotiatedVersion);
+    }
+  }
+
   static String _createProfile(String ssid, String password) {
     return '''
       <WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
