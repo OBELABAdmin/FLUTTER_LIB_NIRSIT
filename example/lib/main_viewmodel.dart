@@ -47,8 +47,8 @@ class MainViewModel extends ChangeNotifier {
 
   BatteryInfo get batteryInfo => _batteryInfo;
 
-  List<WiFiAccessPoint> _wifiList = [];
-  List<WiFiAccessPoint> get wifiList => _wifiList;
+  List<WifiNetworkInfo> _wifiList = [];
+  List<WifiNetworkInfo> get wifiList => _wifiList;
 
   MainViewModel(this._ref) {
     connectStateStream.listen((state) {
