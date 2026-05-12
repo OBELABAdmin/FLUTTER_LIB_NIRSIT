@@ -17,7 +17,8 @@ import 'src/data/nirsit_data.dart';
 import 'src/nirsit/sdk/nirsit_sdk.dart';
 
 export 'package:wifi_scan/wifi_scan.dart';
-export 'package:connectivity_plus/connectivity_plus.dart' show ConnectivityResult;
+export 'package:connectivity_plus/connectivity_plus.dart'
+    show ConnectivityResult;
 export 'src/data/battery_info.dart';
 export 'src/data/version_info.dart';
 export 'src/data/measure_data.dart';
@@ -29,7 +30,9 @@ export 'src/data/data_enum.dart';
 export 'src/data/wifi/wifi_network_info.dart';
 
 Future<void> startForegroundService() {
-  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS)) {
+  if (!kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS)) {
     return initializeService();
   }
   return Future.value();
@@ -39,15 +42,22 @@ class NirsitPlugin {
   final wifiService = WifiService();
   late final NirsitImplementation _implementation;
 
-  NirsitConnectionState get nirsitConnectionState => _implementation.connectionState;
+  NirsitConnectionState get nirsitConnectionState =>
+      _implementation.connectionState;
 
-  Stream<List<ConnectivityResult>> get connectivityResultStream => wifiService.connectivityResultStream;
+  Stream<List<ConnectivityResult>> get connectivityResultStream =>
+      wifiService.connectivityResultStream;
 
   Stream<NirsitData> get nirsitDataStream => _implementation.dataStream;
-  Stream<MeasureState> get measureStateStream => _implementation.measureStateStream;
-  Stream<NirsitConnectionState> get connectStateStream => _implementation.connectionStateStream;
+  Stream<MeasureState> get measureStateStream =>
+      _implementation.measureStateStream;
+  Stream<NirsitConnectionState> get connectStateStream =>
+      _implementation.connectionStateStream;
 
-  bool get isBackgroundSupported => !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
+  bool get isBackgroundSupported =>
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
 
   NirsitPlugin() {
     if (isBackgroundSupported) {
@@ -67,16 +77,24 @@ class NirsitPlugin {
 
   Future<List<WifiNetworkInfo>> scan() => wifiService.scan();
 
-  Future<bool> connectWifi(String ssid, String bssid, String password) => wifiService.connect(ssid, bssid, password);
+  Future<bool> connectWifi(String ssid, String bssid, String password) =>
+      wifiService.connect(ssid, bssid, password);
 
   Future<String?> getConnectedWifiSsid() => wifiService.getConnectedWifiSsid();
+
+  Future<Map<String, String?>> getConnectedWifiNetworkInfo() =>
+      wifiService.getConnectedWifiNetworkInfo();
+
+  Future<String?> getConnectedWifiIp() => wifiService.getConnectedWifiIp();
+
+  Future<String?> getConnectedWifiGateway() =>
+      wifiService.getConnectedWifiGateway();
 
   Future<bool> isWifiConnected() => wifiService.isConnected();
 
   Future<bool> disconnectWifi() => wifiService.disconnect();
 
   Future<bool> isWifiEnabled() => wifiService.isWifiEnabled();
-
 
   void connectNirsit(String ip, int port) => _implementation.connect(ip, port);
 
@@ -115,5 +133,4 @@ class NirsitPlugin {
       return Future.error('Error calling native function');
     }
   }
-
 }

@@ -2,7 +2,6 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'nirsit_plugin_method_channel.dart';
 
-
 abstract class NirsitPluginPlatform extends PlatformInterface {
   /// Constructs a NirsitPluginPlatform.
   NirsitPluginPlatform() : super(token: _token);
@@ -26,5 +25,9 @@ abstract class NirsitPluginPlatform extends PlatformInterface {
 
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  Future<Map<String, String?>> getWifiNetworkInfo() {
+    throw UnimplementedError('getWifiNetworkInfo() has not been implemented.');
   }
 }
