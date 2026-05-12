@@ -180,7 +180,8 @@ class WifiService {
       }
     }
 
-    logger.d('plug-in : connect req ssid=$ssid bssid=$bssid');
+    final normalizedBssid = _normalizeBssid(bssid);
+    logger.d('plug-in : connect req ssid=$ssid bssid=$normalizedBssid');
     try {
       final currentSsid = (await WiFiForIoTPlugin.getSSID())?.replaceAll(
         '"',
@@ -193,13 +194,13 @@ class WifiService {
         return _verifyIpAssigned();
       }
 
-      bool connected = await _tryConnect(ssid, bssid, password);
+      bool connected = await _tryConnect(ssid, normalizedBssid, password);
 
       if (!connected) {
         logger.w(
           'plug-in : connect() returned false, falling back to findAndConnect',
         );
-        connected = await _tryFindAndConnect(ssid, bssid, password);
+        connected = await _tryFindAndConnect(ssid, normalizedBssid, password);
       }
 
       if (!connected) {
@@ -236,7 +237,7 @@ class WifiService {
     }
   }
 
-  Future<bool> _tryConnect(String ssid, String bssid, String password) async {
+  Future<bool> _tryConnect(String ssid, String? bssid, String password) async {
     try {
       final connected = await WiFiForIoTPlugin.connect(
         ssid,
@@ -291,7 +292,7 @@ class WifiService {
 
   Future<bool> _tryFindAndConnect(
     String ssid,
-    String bssid,
+    String? bssid,
     String password,
   ) async {
     try {
@@ -310,6 +311,20 @@ class WifiService {
       );
       return false;
     }
+  }
+
+  String? _normalizeBssid(String bssid) {
+    final value = bssid.trim();
+    final macAddressPattern = RegExp(r'^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}$');
+
+    if (macAddressPattern.hasMatch(value)) {
+      return value.toUpperCase();
+    }
+
+    if (value.isNotEmpty) {
+      logger.w('plug-in : ignoring invalid bssid=$value');
+    }
+    return null;
   }
 }
 
